@@ -64,9 +64,14 @@ ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radiu
 .alert-list .it:last-child{border-bottom:none}
 
 /* ---------- 中栏 ---------- */
-.room{fill:#101720;stroke:#1b2530;stroke-width:.7;transition:opacity .3s;cursor:pointer}
-.room:hover{fill:#131c26}
-.wall{stroke:#33475c;stroke-width:9;stroke-linecap:square;pointer-events:none}
+.room{fill:#171f29;stroke:#1b2530;stroke-width:.6;transition:opacity .3s;cursor:pointer}
+.room:hover{fill:#1b2530}
+/* 墙不再是一条细线，而是有厚度的填充带 + 一条亮边，看起来像实体墙 */
+.wallband{fill:#46596e;stroke:none;pointer-events:none}
+.walledge{fill:none;stroke:#7590a8;stroke-width:.9;opacity:.9;pointer-events:none;
+          vector-effect:non-scaling-stroke}
+.roomname{fill:#96a9be;font-size:13px;font-weight:600;text-anchor:middle;
+          dominant-baseline:central;pointer-events:none;letter-spacing:.5px}
 
 .pin{cursor:pointer}
 .pin.no{cursor:default}
@@ -75,12 +80,14 @@ ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radiu
 /* 可调光灯的旋钮环：单独成类，不吃 .body 的描边规则（踩过：被覆盖成细线） */
 .pin .dial{fill:none}
 .pin .tick{stroke:#0a0f15;stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-linecap:round}
-.pin .halo{fill:none;stroke:none;opacity:0;transition:opacity .2s}
+/* 双层光晕：只在"开"的时候出现，灭的不发光 */
+.pin .glow{stroke:none;opacity:0;transition:opacity .25s;pointer-events:none}
 .pin .slash{stroke:#8aa0b4;stroke-width:2;vector-effect:non-scaling-stroke;display:none}
 .pin text{font-size:12px;font-weight:700;fill:#0a0f15;text-anchor:middle;
           dominant-baseline:central;pointer-events:none}
 
-.pin.on .halo{opacity:.30}
+.pin.on .glow.g2{opacity:.16}
+.pin.on .glow.g1{opacity:.28}
 .pin.on .ring{stroke:#33506a}
 .pin.off .body{opacity:.30}
 .pin.off .dial{opacity:.32}
@@ -102,6 +109,15 @@ ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radiu
                dominant-baseline:central;pointer-events:none}
 .badge .b-stats{font-size:8.5px;font-weight:600;fill:#93a9bd;text-anchor:middle;
                 dominant-baseline:central;pointer-events:none}
+/* 徽标右侧的一键开关：只有"该房间恰好一盏可控灯"时才出现 */
+.badge .pwr{display:none;cursor:pointer}
+.badge .pwr.on{display:block}
+.badge .pwr circle{fill:#16232f;stroke:#2f4356;stroke-width:1}
+.badge .pwr text{font-size:11px;fill:#7e93a8;text-anchor:middle;
+                 dominant-baseline:central;pointer-events:none}
+.badge .pwr.lit circle{fill:#ffcd5c;stroke:#b98f2e}
+.badge .pwr.lit text{fill:#241a08}
+.badge .pwr.dead{opacity:.35;cursor:not-allowed}
 
 .back{position:absolute;left:14px;top:12px;z-index:8;display:none;align-items:center;gap:6px;
       background:rgba(17,28,38,.92);border:1px solid #24384a;border-radius:9px;
@@ -150,6 +166,25 @@ ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radiu
             padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
 .dev button:hover{border-color:#1d6f96;background:#1d3242}
 
+/* 亮度/色温块（仅房间视图、且该房间有可调光灯时出现） */
+.dims{display:none;flex-direction:column;gap:8px;padding:10px;border-radius:11px;
+      background:#0f1a24;border:1px solid #1a2836}
+.dims.on{display:flex}
+.dims .d-row{display:flex;flex-direction:column;gap:5px}
+.dims .d-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#a9bfd2}
+.dims .d-head b{color:#e8f2fb;font-weight:600;font-variant-numeric:tabular-nums}
+.dims input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:14px;
+                         background:transparent;cursor:pointer;margin:0}
+.dims input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
+                         background:linear-gradient(90deg,#2b3f52,#3f5a72)}
+.dims input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;
+                         border-radius:50%;background:#ffcd5c;margin-top:-4px;
+                         border:1px solid #0a0f15}
+.dims input[type=range].kel::-webkit-slider-thumb{background:#9fd2ef}
+.dims input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#2b3f52}
+.dims input[type=range]::-moz-range-thumb{width:12px;height:12px;border:none;border-radius:50%;
+                         background:#ffcd5c}
+
 /* ---------- 窄屏 ---------- */
 .topbar{display:none;position:absolute;left:12px;top:10px;z-index:8;gap:9px;align-items:baseline;
         font-size:12px;color:#9fb4c8;pointer-events:none}
@@ -184,6 +219,8 @@ class SpaceMapCard extends HTMLElement {
     this._press = null;
     this._suppressClick = false;
     this._alertOpen = false;
+    this._dimRows = new Map();
+    this._dimKey = "";
   }
 
   setConfig(config){
@@ -249,6 +286,7 @@ class SpaceMapCard extends HTMLElement {
 
         <aside class="right" id="right">
           <div class="scenes" id="scenes"></div>
+          <div class="dims" id="dims"></div>
           <div class="sec-title" id="sec-title">点中间的房间查看设备</div>
           <div class="devlist" id="devlist"></div>
         </aside>
@@ -266,14 +304,41 @@ class SpaceMapCard extends HTMLElement {
       p.addEventListener("click", () => this.openRoom(r.name));
       this._svg.appendChild(p);
       this._rooms.push({name:r.name, el:p, def:r});
+
+      // 房间名：整屋视图里由徽标承担，这里只在"进房间"时显示在房间中心
+      const t = document.createElementNS(NS, "text");
+      t.setAttribute("x", String(r.label[0]));
+      t.setAttribute("y", String(r.label[1] - 26));
+      t.setAttribute("class", "roomname");
+      t.textContent = r.name;
+      t.style.display = "none";
+      this._svg.appendChild(t);
+      r._labelEl = t;
     }
 
+    // 墙：中心线 ±7cm 生成有厚度的填充带，再叠一条亮边（原来是 9px 细线，看起来像示意图）
+    const T = 14, HALF = T / 2;
+    const bands = [];
     for (const w of DATA.walls){
-      const l = document.createElementNS(NS, "line");
-      l.setAttribute("x1", w[0]); l.setAttribute("y1", w[1]);
-      l.setAttribute("x2", w[2]); l.setAttribute("y2", w[3]);
-      l.setAttribute("class", "wall");
-      this._svg.appendChild(l);
+      const [x1, y1, x2, y2] = w;
+      const dx = x2 - x1, dy = y2 - y1;
+      const L = Math.hypot(dx, dy) || 1;
+      const nx = (-dy / L) * HALF, ny = (dx / L) * HALF;
+      const pts = [
+        [x1 + nx, y1 + ny], [x2 + nx, y2 + ny],
+        [x2 - nx, y2 - ny], [x1 - nx, y1 - ny],
+      ].map(p => p.map(v => Math.round(v * 100) / 100).join(",")).join(" ");
+      bands.push(pts);
+      const poly = document.createElementNS(NS, "polygon");
+      poly.setAttribute("points", pts);
+      poly.setAttribute("class", "wallband");
+      this._svg.appendChild(poly);
+    }
+    for (const pts of bands){
+      const edge = document.createElementNS(NS, "polygon");
+      edge.setAttribute("points", pts);
+      edge.setAttribute("class", "walledge");
+      this._svg.appendChild(edge);
     }
 
     this._buildBadges();
@@ -372,9 +437,31 @@ class SpaceMapCard extends HTMLElement {
       stats.setAttribute("y", "7.5");
 
       g.appendChild(rect); g.appendChild(name); g.appendChild(stats);
+
+      // 一键开关：只有"该房间恰好一盏可控灯"时才出现（0 盏没得开，多盏必须进去选）
+      const pwr = document.createElementNS(NS, "g");
+      pwr.setAttribute("class", "pwr");
+      const pwrC = document.createElementNS(NS, "circle");
+      pwrC.setAttribute("r", String((BADGE_H * 0.55) / 2));
+      pwrC.setAttribute("cy", "0");
+      const pwrT = document.createElementNS(NS, "text");
+      pwrT.textContent = "⏻";
+      pwr.appendChild(pwrC); pwr.appendChild(pwrT);
+      g.appendChild(pwr);
+
+      const entry = {el:g, rect, name, stats, def:r, w:88, key:"", pwr, pwrC, light:null};
+
+      pwr.addEventListener("click", ev => {
+        ev.stopPropagation();
+        if (!entry.light) return;
+        const st = this._stateOf(entry.light);
+        if (st === "unavailable" || st === "unknown") return;
+        this._hass.callService("light", "toggle", { entity_id: entry.light });
+      });
+
       g.addEventListener("click", ev => { ev.stopPropagation(); this.openRoom(r.name); });
       this._svg.appendChild(g);
-      this._badges.set(r.name, {el:g, rect, name, stats, def:r, w:88, key:""});
+      this._badges.set(r.name, entry);
     }
   }
 
@@ -390,10 +477,18 @@ class SpaceMapCard extends HTMLElement {
       g.setAttribute("transform", `translate(${d.x},${d.y})`);
       if (type === "sensor") g.classList.add("no");
 
-      const halo = document.createElementNS(NS, "circle");
-      halo.setAttribute("r", r + 6); halo.setAttribute("class", "halo");
-      halo.setAttribute("fill", color);
-      g.appendChild(halo);
+      // 双层光晕：亮的时候才有，灭的时候不发光（原来是一层 halo，太弱看不出"亮着"）
+      const glow2 = document.createElementNS(NS, "circle");
+      glow2.setAttribute("r", String(r * 2.4));
+      glow2.setAttribute("class", "glow g2");
+      glow2.setAttribute("fill", color);
+      g.appendChild(glow2);
+
+      const glow1 = document.createElementNS(NS, "circle");
+      glow1.setAttribute("r", String(r * 1.7));
+      glow1.setAttribute("class", "glow g1");
+      glow1.setAttribute("fill", color);
+      g.appendChild(glow1);
 
       if (type !== "sensor"){
         const ring = document.createElementNS(NS, "circle");
@@ -535,6 +630,10 @@ class SpaceMapCard extends HTMLElement {
     }
     for (const r of this._rooms){
       r.el.style.opacity = (!inRoom || r.name === this._view.name) ? "1" : "0.32";
+      // 房间名只在"进房间"时显示，整屋视图由徽标承担
+      if (r.def._labelEl){
+        r.def._labelEl.style.display = (inRoom && r.name === this._view.name) ? "" : "none";
+      }
     }
     this._hudText();
     this._syncRight();
@@ -677,47 +776,97 @@ class SpaceMapCard extends HTMLElement {
   _syncBadges(){
     for (const [name, b] of this._badges){
       let on = 0, total = 0, devCount = 0;
+      const lights = [];
       for (const d of DATA.devices){
         if (d.area !== name) continue;
         devCount++;
         for (const c of this._controlsOf(d)){
           if (c.domain !== "light") continue;
+          lights.push(c.entity_id);
           total++;
           if (this._stateOf(c.entity_id) === "on") on++;
         }
+      }
+
+      // ---- 一键开关（只有恰好一盏可控灯时可用）----
+      const sole = lights.length === 1 ? lights[0] : null;
+      b.light = sole;
+      if (sole){
+        const st = this._stateOf(sole);
+        const dead = (st === "unavailable" || st === "unknown");
+        b.pwr.classList.add("on");
+        b.pwr.classList.toggle("lit", st === "on");
+        b.pwr.classList.toggle("dead", dead);
+        b.pwrT = b.pwrT || b.pwr.querySelector("text");
+        if (b.pwrT) b.pwrT.textContent = dead ? "⏻" : (st === "on" ? "⏻" : "⏻");
+      } else {
+        b.pwr.classList.remove("on", "lit", "dead");
       }
 
       // 灯的表述要区分三种情况：
       //  0 盏灯（玄关只有传感器）→ 不写灯，只写设备数
       //  1 盏灯 → 只写亮/灭，避免"1/1 盏亮"这种废话
       //  ≥2 盏灯 → 同时给出"亮几盏"和"共几盏"，因为只写"1 盏亮"会让人以为房间只有一盏
-      const parts = [];
-      if (total === 1) parts.push(on ? "亮" : "灭");
-      else if (total > 1) parts.push(`${on} 盏亮 共 ${total} 盏`);
-      else parts.push(`${devCount} 个设备`);
+      // 文案用 ON / OFF，不用"亮/灭"。
+      // 视觉区分靠三件事：暖色/暗灰、ON 时前置同色圆点、温度永远中性色。
+      let mainTxt, tempTxt = null;
+      if (total === 1) mainTxt = on ? "ON" : "OFF";
+      else if (total > 1) mainTxt = `${on}/${total} ON`;
+      else mainTxt = `${devCount} 个设备`;
+
+      const lit = total > 0 && on > 0;
+      const mainColor = total === 0 ? "#93a9bd" : (lit ? "#ffcd5c" : "#6b7f92");
+      const prefix = (total > 0 && lit) ? "● " : "";
 
       if (b.def.temp){
         const s = this._stateOf(b.def.temp);
         if (s && s !== "unavailable" && s !== "unknown"){
           const v = parseFloat(s);
-          if (!isNaN(v)) parts.push(`${v.toFixed(1)}°C`);
+          if (!isNaN(v)) tempTxt = `${v.toFixed(1)}°C`;
         }
       }
-      const stats = parts.join(" · ");
 
-      const key = name + "|" + stats;
+      // 电源键位置跟着徽标宽度走（即使文字没变也要摆正）
+      this._placePwr(b);
+
+      const key = name + "|" + mainTxt + "|" + (tempTxt || "") + "|" + mainColor + "|" + (lit ? 1 : 0);
       if (b.key === key) continue;
       b.key = key;
       b.name.textContent = name;
-      b.stats.textContent = stats;
+
+      b.stats.textContent = "";
+      const s1 = document.createElementNS(NS, "tspan");
+      s1.textContent = prefix + mainTxt;
+      s1.setAttribute("fill", mainColor);
+      s1.setAttribute("font-weight", "700");
+      b.stats.appendChild(s1);
+      if (tempTxt){
+        const s2 = document.createElementNS(NS, "tspan");
+        s2.textContent = " · " + tempTxt;
+        s2.setAttribute("fill", "#93a9bd");
+        s2.setAttribute("font-weight", "600");
+        b.stats.appendChild(s2);
+      }
 
       let w1 = 60, w2 = 60;
       try { w1 = b.name.getBBox().width; w2 = b.stats.getBBox().width; } catch (e) {}
-      const cw = Math.max(64, Math.max(w1, w2) + 20);
+      // 电源键放在徽标内部右端：放外面会和隔壁房间的徽标相撞（小阳台的键被浴室压住过）
+      const pad = sole ? (BADGE_H * 0.55 + 12) : 0;
+      const cw = Math.max(64, Math.max(w1, w2) + 20 + pad);
       b.w = cw;
       b.rect.setAttribute("x", String(-cw / 2));
       b.rect.setAttribute("width", String(cw));
+      b.name.setAttribute("x", String(-pad / 2));
+      b.stats.setAttribute("x", String(-pad / 2));
+      this._placePwr(b);
     }
+  }
+
+  _placePwr(b){
+    if (!b.pwr) return;
+    const w = b.w || 88;
+    const r = (BADGE_H * 0.55) / 2;
+    b.pwr.setAttribute("transform", `translate(${(w / 2 - r - 6).toFixed(2)},0)`);
   }
 
   /* ------------------------------------------------------------------ 左右栏刷新 */
@@ -816,6 +965,8 @@ class SpaceMapCard extends HTMLElement {
     if (!this._built) return;
     const root = this.shadowRoot;
 
+    this._syncDims();
+
     // 场景可用性
     const box = root.getElementById("scenes");
     if (box){
@@ -879,6 +1030,93 @@ class SpaceMapCard extends HTMLElement {
         if (c) this._call(c, "toggle");
       });
     });
+  }
+
+  /* 房间视图里的亮度/色温：精确调节走滑块，不走图上长按 */
+  _syncDims(){
+    const box = this.shadowRoot.getElementById("dims");
+    if (!box) return;
+
+    if (this._view.type !== "room"){
+      box.classList.remove("on");
+      if (this._dimKey){ box.innerHTML = ""; this._dimRows = new Map(); this._dimKey = ""; }
+      return;
+    }
+
+    const room = this._view.name;
+    const lights = [];
+    for (const d of DATA.devices){
+      if (d.area !== room) continue;
+      for (const c of this._controlsOf(d)){
+        if (c.domain !== "light") continue;
+        const a = this._attrsOf(c.entity_id);
+        const modes = a.supported_color_modes || [];
+        const dim = (typeof a.brightness === "number") ||
+                    (modes.length > 0 && !(modes.length === 1 && modes[0] === "onoff"));
+        if (dim) lights.push({eid: c.entity_id, name: d.name, attrs: a});
+      }
+    }
+
+    if (!lights.length){
+      box.classList.remove("on");
+      if (this._dimKey){ box.innerHTML = ""; this._dimRows = new Map(); this._dimKey = ""; }
+      return;
+    }
+
+    box.classList.add("on");
+    const key = room + "|" + lights.map(l => l.eid).join(",");
+
+    if (key !== this._dimKey){
+      this._dimKey = key;
+      this._dimRows = new Map();
+      box.innerHTML = lights.map(l => {
+        const a = l.attrs;
+        const minK = a.min_color_temp_kelvin || 2700;
+        const maxK = a.max_color_temp_kelvin || 6500;
+        return `<div class="d-row" data-eid="${this._esc(l.eid)}">
+          <div class="d-head"><span>${this._esc(l.name)}</span><b>—</b></div>
+          <input class="bri" type="range" min="1" max="100" step="1">
+          <input class="kel" type="range" min="${minK}" max="${maxK}" step="50">
+        </div>`;
+      }).join("");
+
+      box.querySelectorAll(".d-row").forEach(row => {
+        const eid = row.dataset.eid;
+        const bri = row.querySelector(".bri");
+        const kel = row.querySelector(".kel");
+        const label = row.querySelector(".d-head b");
+        this._dimRows.set(eid, {row, bri, kel, label});
+
+        const paint = () => { label.textContent = `${bri.value}% · ${kel.value}K`; };
+        bri.addEventListener("input", paint);
+        kel.addEventListener("input", paint);
+
+        // 只有松手（change）才发服务，拖动过程中不发
+        const commit = () => {
+          this._hass.callService("light", "turn_on", {
+            entity_id: eid,
+            brightness: Math.max(1, Math.round((+bri.value * 255) / 100)),
+            color_temp_kelvin: Math.round(+kel.value),
+          });
+        };
+        bri.addEventListener("change", commit);
+        kel.addEventListener("change", commit);
+      });
+    }
+
+    // 外部状态变化时同步数值；正在拖的那根不要动，否则会跳
+    const ae = this.shadowRoot.activeElement;
+    for (const [eid, r] of this._dimRows){
+      if (ae === r.bri || ae === r.kel) continue;
+      const a = this._attrsOf(eid);
+      if (typeof a.brightness === "number"){
+        r.bri.value = String(Math.max(1, Math.round((a.brightness * 100) / 255)));
+      }
+      if (typeof a.color_temp_kelvin === "number"){
+        r.kel.value = String(Math.round(a.color_temp_kelvin));
+      }
+      r.label.textContent = `${r.bri.value}% · ${r.kel.value}K`;
+    }
   }
 
   _esc(s){
