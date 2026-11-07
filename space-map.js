@@ -809,13 +809,18 @@ class SpaceMapCard extends HTMLElement {
       //  ≥2 盏灯 → 同时给出"亮几盏"和"共几盏"，因为只写"1 盏亮"会让人以为房间只有一盏
       // 文案用 ON / OFF，不用"亮/灭"。
       // 视觉区分靠三件事：暖色/暗灰、ON 时前置同色圆点、温度永远中性色。
-      let mainTxt, tempTxt = null;
+      // 灯的表述：
+      //  0 盏灯（玄关只有传感器）→ 不提灯，只显示温度
+      //  1 盏灯 → 只写 ON/OFF，避免"1/1 盏亮"这种废话
+      //  ≥2 盏灯 → 给出"亮几盏/共几盏"
+      // 文案用 ON / OFF，不用"亮/灭"。
+      let mainTxt = null, tempTxt = null;
       if (total === 1) mainTxt = on ? "ON" : "OFF";
       else if (total > 1) mainTxt = `${on}/${total} ON`;
-      else mainTxt = `${devCount} 个设备`;
+      // total === 0 → mainTxt 保持 null，这一行只留给温度
 
       const lit = total > 0 && on > 0;
-      const mainColor = total === 0 ? "#93a9bd" : (lit ? "#ffcd5c" : "#6b7f92");
+      const mainColor = lit ? "#ffcd5c" : "#6b7f92";
       const prefix = (total > 0 && lit) ? "● " : "";
 
       if (b.def.temp){
@@ -835,14 +840,16 @@ class SpaceMapCard extends HTMLElement {
       b.name.textContent = name;
 
       b.stats.textContent = "";
-      const s1 = document.createElementNS(NS, "tspan");
-      s1.textContent = prefix + mainTxt;
-      s1.setAttribute("fill", mainColor);
-      s1.setAttribute("font-weight", "700");
-      b.stats.appendChild(s1);
+      if (mainTxt){
+        const s1 = document.createElementNS(NS, "tspan");
+        s1.textContent = prefix + mainTxt;
+        s1.setAttribute("fill", mainColor);
+        s1.setAttribute("font-weight", "700");
+        b.stats.appendChild(s1);
+      }
       if (tempTxt){
         const s2 = document.createElementNS(NS, "tspan");
-        s2.textContent = " · " + tempTxt;
+        s2.textContent = (mainTxt ? " · " : "") + tempTxt;
         s2.setAttribute("fill", "#93a9bd");
         s2.setAttribute("font-weight", "600");
         b.stats.appendChild(s2);
