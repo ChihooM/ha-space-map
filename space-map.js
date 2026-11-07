@@ -28,227 +28,434 @@ const WX = {
   "windy-variant":"大风","exceptional":"异常","clear-day":"晴"
 };
 
-const CSS = `
+/* ---------------------------------------------------------------- 主题
+ * 颜色全部走 token：CSS 里用 ${T.xxx}，JS 里读 T.xxx。
+ * 深浅两套必须保持同一组 key（缺一个会渲染成 undefined）。
+ */
+const THEMES = {
+  dark: {
+  cardBg: "#0b1119",
+  panelTop: "#0c141d",
+  panelBot: "#0a1119",
+  pinHalo: "#0a0f15",
+  isoFloorStroke: "#0a1017",
+  surfaceBtn: "#13202b",
+  surfaceHover: "#16232f",
+  surfaceHover2: "#1d3242",
+  surfaceMenu: "#111c26",
+  surfaceCap: "#0f1a24",
+  isoFloor: "#141d27",
+  roomGradIn: "#1d2836",
+  roomGradOut: "#0f1720",
+  isoFloorHover: "#18232f",
+  roomFill: "#171f29",
+  surfaceActive: "#0d3a52",
+  surfaceSceneHover: "#16283a",
+  alertBg: "#14100a",
+  warnBtnBg: "#241a10",
+  lineMain: "#1b2530",
+  lineCol: "#16212c",
+  lineBtn: "#24384a",
+  lineScene: "#22333f",
+  lineCap: "#1a2836",
+  lineBadge: "#2a3d4f",
+  lineDashed: "#2b3d4f",
+  linePwr: "#2f4356",
+  lineWarm: "#5a4322",
+  lineWarm2: "#2a2318",
+  accentLine: "#1d6f96",
+  ringOn: "#33506a",
+  alertCapHover: "#a2752f",
+  wallLine: "#33475c",
+  wallBand: "#46596e",
+  wallEdge: "#7590a8",
+  textBase: "#e8f2fb",
+  textBadgeName: "#dbe8f4",
+  textBtn: "#cfe3f2",
+  textVal: "#cfe0ef",
+  textEllipsis: "#cfdeeb",
+  textAi: "#b9cddd",
+  textRow: "#a9bccd",
+  textDimRow: "#a9bfd2",
+  textHud: "#9fb4c8",
+  dimStats: "#93a9bd",
+  dimModeBar: "#8fa6ba",
+  dimPin: "#8aa0b4",
+  dimLabel: "#7f94a8",
+  dimDate: "#7e93a8",
+  dimFoot: "#5f7386",
+  dimUnavail: "#5a6b7a",
+  dimRoomName: "#96a9be",
+  accentBright: "#58c7ff",
+  accentSoft: "#9fd2ef",
+  accentPale: "#bfe9ff",
+  lightOn: "#ffcd5c",
+  lightOnStroke: "#b98f2e",
+  onLightText: "#241a08",
+  warmText2: "#f0c37a",
+  alertItemText: "#d7c4a6",
+  warn: "#ff9f43",
+  danger: "#f85149",
+  bubbleStrong: "#fff",
+  overlayHud: "rgba(11,17,25,.86)",
+  overlayBubble: "rgba(12,20,28,.95)",
+  overlayBadge: "rgba(16,26,36,.85)",
+  overlayModeBar: "rgba(17,28,38,.92)",
+  overlayBadgeHover: "rgba(20,34,46,.92)",
+  isoTopStroke: "rgba(150,178,205,.34)",
+  shadowSoft: "#000a",
+  shadowMenu: "#000b",
+  lineRing: "#2a3a4a",
+  unavailFill: "#2f3a45",
+  rangeTrack: "#2b3f52",
+  rangeFill: "#3f5a72",
+  "floorTop": "#1b2634", "floorBot": "#111922", "aoOp": ".42", "vigOp": "0.5",
+  "wallShadeLo": [40,56,72],
+  wallShadeHi: [126,152,178],
+  wallGradTop: "#68829e",
+  wallGradMid: "#4b6278",
+  wallGradBot: "#2f4054",
+  glass1: "#9fb8d0",
+  glass2: "#6d8aa6",
+  glass3: "#41586f",
+  glass4: "#2b3d4f",
+  lamp1: "#ffd98a",
+  lamp2: "#ffbe55",
+  lamp3: "#ff9f2e",
+  lampOp1: ".60",
+  lampOp2: ".26",
+  lampOp3: ".08",
+  badgeOn: "#ffcd5c",
+  badgeOff: "#6b7f92",
+  menuDotOn: "#58c7ff",
+  menuDotOff: "#455a6e",
+  wallShadow: "rgba(0,0,0,.55)",
+  aoEdge: "#000",
+  vigEdge: "#000000"
+  },
+  light: {
+  cardBg: "#FBFAF7",
+  panelTop: "#FFFFFF",
+  panelBot: "#F7F5F2",
+  pinHalo: "#F2F0EC",
+  isoFloorStroke: "#DCD7CF",
+  surfaceBtn: "#FBFAF7",
+  surfaceHover: "#F1EEE8",
+  surfaceHover2: "#E8E4DC",
+  surfaceMenu: "#FFFFFF",
+  surfaceCap: "#F7F5F2",
+  isoFloor: "#EFEBE4",
+  roomGradIn: "#FFFFFF",
+  roomGradOut: "#E8E4DC",
+  isoFloorHover: "#E2DED5",
+  roomFill: "#EDEAE4",
+  surfaceActive: "#DCEBF6",
+  surfaceSceneHover: "#EDEAE4",
+  alertBg: "#FFF6E8",
+  warnBtnBg: "#FFEFDC",
+  lineMain: "#DCD7CF",
+  lineCol: "#DCD7CF",
+  lineBtn: "#CFC8BE",
+  lineScene: "#D9D3CA",
+  lineCap: "#D3CDC4",
+  lineBadge: "#C9C2B8",
+  lineDashed: "#CFC8BE",
+  linePwr: "#C9C2B8",
+  lineWarm: "#E3C08A",
+  lineWarm2: "#EAD9C0",
+  accentLine: "#2A7FB8",
+  ringOn: "#9DB6C9",
+  alertCapHover: "#C08A2E",
+  wallLine: "#B9B2A6",
+  wallBand: "#CFC8BE",
+  wallEdge: "#A89F92",
+  textBase: "#1F2429",
+  textBadgeName: "#1F2429",
+  textBtn: "#2A3038",
+  textVal: "#2A3038",
+  textEllipsis: "#2A3038",
+  textAi: "#4A5460",
+  textRow: "#4A5460",
+  textDimRow: "#55606C",
+  textHud: "#55606C",
+  dimStats: "#6B7280",
+  dimModeBar: "#6B7280",
+  dimPin: "#7A8290",
+  dimLabel: "#7A8290",
+  dimDate: "#7A8290",
+  dimFoot: "#8A94A0",
+  dimUnavail: "#8A94A0",
+  dimRoomName: "#6B7280",
+  accentBright: "#0E6FA8",
+  accentSoft: "#1B6FA8",
+  accentPale: "#0B5C8A",
+  lightOn: "#E08A00",
+  lightOnStroke: "#A96900",
+  onLightText: "#FFFFFF",
+  warmText2: "#A9681A",
+  alertItemText: "#7A5A2A",
+  warn: "#C2410C",
+  danger: "#D93A2B",
+  bubbleStrong: "#1F2429",
+  overlayHud: "rgba(255,255,255,.92)",
+  overlayBubble: "rgba(255,255,255,.97)",
+  overlayBadge: "rgba(255,255,255,.92)",
+  overlayModeBar: "rgba(255,255,255,.94)",
+  overlayBadgeHover: "rgba(255,255,255,.98)",
+  isoTopStroke: "rgba(31,36,41,.28)",
+  shadowSoft: "rgba(31,36,41,.12)",
+  shadowMenu: "rgba(31,36,41,.14)",
+  lineRing: "#C9C2B8",
+  unavailFill: "#D8D3CA",
+  rangeTrack: "#DCD7CF",
+  rangeFill: "#2A7FB8",
+  "floorTop": "#F5F2EC", "floorBot": "#EAE6DE", "aoOp": ".12", "vigOp": "0.06",
+  "wallShadeLo": [201,194,184],
+  wallShadeHi: [255,255,255],
+  wallGradTop: "#D8D2C7",
+  wallGradMid: "#E3DED5",
+  wallGradBot: "#EFEBE4",
+  glass1: "#E9E4DB",
+  glass2: "#D9D3C9",
+  glass3: "#C9C2B8",
+  glass4: "#B9B2A6",
+  lamp1: "#F2B23A",
+  lamp2: "#E08A00",
+  lamp3: "#E08A00",
+  lampOp1: ".18",
+  lampOp2: ".10",
+  lampOp3: ".03",
+  badgeOn: "#E08A00",
+  badgeOff: "#8A8F98",
+  menuDotOn: "#0E6FA8",
+  menuDotOff: "#C9C2B8",
+  wallShadow: "rgba(31,36,41,.10)",
+  aoEdge: "#1F2429",
+  vigEdge: "#1F2429"
+  }
+};
+let T = THEMES.dark;
+
+const cssFor = (T) => `
 :host{display:block}
-ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radius:16px;
-        color:#e8f2fb;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+ha-card{overflow:hidden;background:${T.cardBg};border:1px solid ${T.lineMain};border-radius:16px;
+        color:${T.textBase};font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
 .shell{display:grid;grid-template-columns:288px minmax(0,1fr) 320px;
        height:min(78vh,840px);min-height:420px}
 .left{display:flex;flex-direction:column;gap:12px;padding:16px 14px;min-height:0;
       overflow-y:auto;overflow-x:hidden;
-      position:relative;border-right:1px solid #16212c;
-      background:linear-gradient(180deg,#0c141d,#0a1119)}
+      position:relative;border-right:1px solid ${T.lineCol};
+      background:linear-gradient(180deg,${T.panelTop},${T.panelBot})}
 .right{display:flex;flex-direction:column;gap:12px;padding:14px 12px;min-height:0;
       overflow-y:auto;overflow-x:hidden;
-      border-left:1px solid #16212c;background:linear-gradient(180deg,#0c141d,#0a1119)}
+      border-left:1px solid ${T.lineCol};background:linear-gradient(180deg,${T.panelTop},${T.panelBot})}
 .center{position:relative;min-width:0;min-height:0;overflow:hidden}
 .center svg{width:100%;height:100%;display:block;touch-action:manipulation;max-height:none}
 
 /* ---------- 左栏 ---------- */
-.clock .t{font-size:36px;font-weight:700;letter-spacing:1.5px;line-height:1.05;color:#e8f2fb;
+.clock .t{font-size:36px;font-weight:700;letter-spacing:1.5px;line-height:1.05;color:${T.textBase};
           font-variant-numeric:tabular-nums}
-.clock .d{font-size:12px;color:#7e93a8;margin-top:3px}
-.clock .w{font-size:12px;color:#9fd2ef;margin-top:7px;display:flex;align-items:center;gap:6px}
+.clock .d{font-size:12px;color:${T.dimDate};margin-top:3px}
+.clock .w{font-size:12px;color:${T.accentSoft};margin-top:7px;display:flex;align-items:center;gap:6px}
 .ai{flex:0 1 auto;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:9px;
     padding-right:2px}
-.ai-row{display:flex;gap:8px;font-size:12px;line-height:1.5;color:#b9cddd}
+.ai-row{display:flex;gap:8px;font-size:12px;line-height:1.5;color:${T.textAi}}
 .ai-row .ic{flex:0 0 16px;text-align:center;opacity:.85}
 .ai-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;
-         font-size:10px;color:#5f7386;min-height:18px}
-.ai-refresh{width:22px;height:22px;border-radius:50%;border:1px solid #24384a;background:#13202b;
-            color:#9fd2ef;font-size:12px;line-height:1;cursor:pointer;padding:0;
+         font-size:10px;color:${T.dimFoot};min-height:18px}
+.ai-refresh{width:22px;height:22px;border-radius:50%;border:1px solid ${T.lineBtn};background:${T.surfaceBtn};
+            color:${T.accentSoft};font-size:12px;line-height:1;cursor:pointer;padding:0;
             display:flex;align-items:center;justify-content:center;font-family:inherit}
-.ai-refresh:hover{border-color:#1d6f96;background:#16232f}
+.ai-refresh:hover{border-color:${T.accentLine};background:${T.surfaceHover}}
 .pets{display:flex;flex-direction:column;gap:7px;margin-top:12px}
-.petrow{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#a9bccd}
-.petrow .pn{color:#7f94a8;flex:0 0 auto}
-.petrow .pm{color:#cfe0ef;margin-left:auto;display:flex;gap:8px}
-.petrow .pm .warn{color:#ff9f43}
-.vac{display:flex;align-items:center;gap:8px;font-size:11.5px;margin-top:8px;color:#a9bccd}
-.vac .pn{color:#7f94a8}
-.vac .pv{color:#cfe0ef;margin-left:auto}
+.petrow{display:flex;align-items:center;gap:8px;font-size:11.5px;color:${T.textRow}}
+.petrow .pn{color:${T.dimLabel};flex:0 0 auto}
+.petrow .pm{color:${T.textVal};margin-left:auto;display:flex;gap:8px}
+.petrow .pm .warn{color:${T.warn}}
+.vac{display:flex;align-items:center;gap:8px;font-size:11.5px;margin-top:8px;color:${T.textRow}}
+.vac .pn{color:${T.dimLabel}}
+.vac .pv{color:${T.textVal};margin-left:auto}
 .batchrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:12px}
 .batchrow .qbtn{padding:9px 2px;font-size:11px}
 .quick{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
-.media{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11.5px;color:#a9bccd}
-.media .pn{color:#7f94a8;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mbtn{width:30px;height:30px;border-radius:8px;border:1px solid #24384a;background:#16232f;
-      color:#cfe3f2;font-size:12px;line-height:1;cursor:pointer;padding:0;font-family:inherit;
+.media{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11.5px;color:${T.textRow}}
+.media .pn{color:${T.dimLabel};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mbtn{width:30px;height:30px;border-radius:8px;border:1px solid ${T.lineBtn};background:${T.surfaceHover};
+      color:${T.textBtn};font-size:12px;line-height:1;cursor:pointer;padding:0;font-family:inherit;
       display:flex;align-items:center;justify-content:center}
-.mbtn:hover{border-color:#1d6f96;background:#1d3242}
+.mbtn:hover{border-color:${T.accentLine};background:${T.surfaceHover2}}
 .mbtn.off{opacity:.45}
 .acph{margin-top:10px;height:42px;display:flex;align-items:center;justify-content:center;
-      border:1px dashed #2b3d4f;border-radius:9px;color:#5f7386;font-size:11.5px;opacity:.5;
+      border:1px dashed ${T.lineDashed};border-radius:9px;color:${T.dimFoot};font-size:11.5px;opacity:.5;
       pointer-events:none}
 .stats{display:none}
 .srow{display:flex;gap:9px;font-size:11.5px;line-height:1.5}
-.srow .k{color:#5f7386;flex:0 0 32px}
-.srow .v{color:#a9bccd;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.srow .v.warn{color:#ffcd5c}
+.srow .k{color:${T.dimFoot};flex:0 0 32px}
+.srow .v{color:${T.textRow};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srow .v.warn{color:${T.lightOn}}
 .quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .qbtn{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 4px;
-      font-size:11.5px;background:#16232f;border:1px solid #24384a;border-radius:9px;
-      color:#cfe3f2;cursor:pointer;font-family:inherit;white-space:nowrap;overflow:hidden}
-.qbtn:hover{background:#1d3242;border-color:#1d6f96}
-.qbtn.act{background:#0d3a52;border-color:#1d6f96;color:#bfe9ff}
+      font-size:11.5px;background:${T.surfaceHover};border:1px solid ${T.lineBtn};border-radius:9px;
+      color:${T.textBtn};cursor:pointer;font-family:inherit;white-space:nowrap;overflow:hidden}
+.qbtn:hover{background:${T.surfaceHover2};border-color:${T.accentLine}}
+.qbtn.act{background:${T.surfaceActive};border-color:${T.accentLine};color:${T.accentPale}}
 .alerts{margin-top:12px}
 .alert-cap{display:none;align-items:center;gap:7px;padding:8px 12px;border-radius:11px;
-           background:#241a10;border:1px solid #5a4322;color:#f0c37a;font-size:12px;cursor:pointer}
+           background:${T.warnBtnBg};border:1px solid ${T.lineWarm};color:${T.warmText2};font-size:12px;cursor:pointer}
 .alert-cap.on{display:flex}
-.alert-cap:hover{border-color:#a2752f}
+.alert-cap:hover{border-color:${T.alertCapHover}}
 /* 展开态要盖住整个左栏：定位锚点必须是 .left（.alerts 只有胶囊那么高，踩过） */
 .alert-list{display:none;position:absolute;left:14px;right:14px;bottom:14px;z-index:12;
-            max-height:62%;overflow:auto;background:#14100a;border:1px solid #5a4322;
-            border-radius:12px;padding:10px;box-shadow:0 10px 30px #000b}
+            max-height:62%;overflow:auto;background:${T.alertBg};border:1px solid ${T.lineWarm};
+            border-radius:12px;padding:10px;box-shadow:0 10px 30px ${T.shadowMenu}}
 .alert-list.on{display:block}
-.alert-list h4{margin:0 0 8px;font-size:12px;color:#f0c37a;font-weight:700}
-.alert-list .it{font-size:11px;color:#d7c4a6;padding:4px 0;border-bottom:1px solid #2a2318;
+.alert-list h4{margin:0 0 8px;font-size:12px;color:${T.warmText2};font-weight:700}
+.alert-list .it{font-size:11px;color:${T.alertItemText};padding:4px 0;border-bottom:1px solid ${T.lineWarm2};
                 display:flex;justify-content:space-between;gap:8px}
 .alert-list .it:last-child{border-bottom:none}
 
 /* ---------- 中栏 ---------- */
-.room{fill:#171f29;stroke:#1b2530;stroke-width:.6;transition:opacity .3s;cursor:pointer}
-.room:hover{fill:#1b2530}
+.room{fill:${T.roomFill};stroke:${T.lineMain};stroke-width:.6;transition:opacity .3s;cursor:pointer}
+.room:hover{fill:${T.lineMain}}
 /* 墙不再是一条细线，而是有厚度的填充带 + 一条亮边，看起来像实体墙 */
-.wallband{fill:#46596e;stroke:none;pointer-events:none}
-.walledge{fill:none;stroke:#7590a8;stroke-width:.9;opacity:.9;pointer-events:none;
+.wallband{fill:${T.wallBand};stroke:none;pointer-events:none}
+.walledge{fill:none;stroke:${T.wallEdge};stroke-width:.9;opacity:.9;pointer-events:none;
           vector-effect:non-scaling-stroke}
 /* ---------- 2D 平面层：细墙线（原始设计，不许加厚） ---------- */
-.wallline{fill:none;stroke:#33475c;stroke-width:9;stroke-linecap:square;pointer-events:none}
+.wallline{fill:none;stroke:${T.wallLine};stroke-width:9;stroke-linecap:square;pointer-events:none}
 /* ---------- 2.5D 等距层 ---------- */
-.iso-floor{fill:#141d27;stroke:#0a1017;stroke-width:1.1;cursor:pointer;transition:fill .18s}
-.iso-floor:hover{fill:#18232f}
+.iso-floor{fill:${T.isoFloor};stroke:${T.isoFloorStroke};stroke-width:1.1;cursor:pointer;transition:fill .18s}
+.iso-floor:hover{fill:${T.isoFloorHover}}
 .iso-face{stroke:none;pointer-events:none}
-.iso-top{stroke:rgba(150,178,205,.34);stroke-width:.8;stroke-linejoin:round;pointer-events:none}
+.iso-top{stroke:${T.isoTopStroke};stroke-width:.8;stroke-linejoin:round;pointer-events:none}
 .modebar{position:absolute;right:14px;bottom:12px;z-index:8;display:flex;gap:2px;
-         background:rgba(17,28,38,.92);border:1px solid #24384a;border-radius:9px;padding:3px;
+         background:${T.overlayModeBar};border:1px solid ${T.lineBtn};border-radius:9px;padding:3px;
          backdrop-filter:blur(6px)}
-.modebar button{border:none;background:transparent;color:#8fa6ba;font-size:11px;padding:4px 11px;
+.modebar button{border:none;background:transparent;color:${T.dimModeBar};font-size:11px;padding:4px 11px;
                 border-radius:6px;cursor:pointer;font-family:inherit;line-height:1}
-.modebar button.on{background:#1d3242;color:#cfe3f2}
-.roomname{fill:#96a9be;font-size:13px;font-weight:600;text-anchor:middle;
+.modebar button.on{background:${T.surfaceHover2};color:${T.textBtn}}
+.roomname{fill:${T.dimRoomName};font-size:13px;font-weight:600;text-anchor:middle;
           dominant-baseline:central;pointer-events:none;letter-spacing:.5px}
 
 .pin{cursor:pointer}
 .pin.no{cursor:default}
-.pin .ring{fill:none;stroke:#2a3a4a;stroke-width:1.5;vector-effect:non-scaling-stroke}
-.pin .body{stroke:#0a0f15;stroke-width:1.4;vector-effect:non-scaling-stroke}
+.pin .ring{fill:none;stroke:${T.lineRing};stroke-width:1.5;vector-effect:non-scaling-stroke}
+.pin .body{stroke:${T.pinHalo};stroke-width:1.4;vector-effect:non-scaling-stroke}
 /* 可调光灯的旋钮环：单独成类，不吃 .body 的描边规则（踩过：被覆盖成细线） */
 .pin .dial{fill:none}
-.pin .tick{stroke:#0a0f15;stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.pin .tick{stroke:${T.pinHalo};stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-linecap:round}
 /* 双层光晕：只在"开"的时候出现，灭的不发光 */
 .pin .glow{stroke:none;opacity:0;transition:opacity .25s;pointer-events:none}
-.pin .slash{stroke:#8aa0b4;stroke-width:2;vector-effect:non-scaling-stroke;display:none}
-.pin text{font-size:12px;font-weight:700;fill:#0a0f15;text-anchor:middle;
+.pin .slash{stroke:${T.dimPin};stroke-width:2;vector-effect:non-scaling-stroke;display:none}
+.pin text{font-size:12px;font-weight:700;fill:${T.pinHalo};text-anchor:middle;
           dominant-baseline:central;pointer-events:none}
 
 .pin.on .glow.g2{opacity:.16}
 .pin.on .glow.g1{opacity:.28}
-.pin.on .ring{stroke:#33506a}
+.pin.on .ring{stroke:${T.ringOn}}
 .pin.off .body{opacity:.30}
 .pin.off .dial{opacity:.32}
 .pin.off .tick{opacity:.30}
 .pin.off text{opacity:.55}
 .pin.sensor .body{opacity:.85}
-.pin.sensor .ring{stroke:#24384a}
-.pin.unavail .body{fill:#2f3a45;opacity:.55}
-.pin.unavail .dial{stroke:#2f3a45;opacity:.55}
-.pin.unavail .ring{stroke:#5a6b7a;stroke-dasharray:3 3}
+.pin.sensor .ring{stroke:${T.lineBtn}}
+.pin.unavail .body{fill:${T.unavailFill};opacity:.55}
+.pin.unavail .dial{stroke:${T.unavailFill};opacity:.55}
+.pin.unavail .ring{stroke:${T.dimUnavail};stroke-dasharray:3 3}
 .pin.unavail .slash{display:block}
 .pin.unavail text{opacity:.4}
 .pin.dimmed .body{opacity:1}
 
 .badge{cursor:pointer}
-.badge rect{fill:rgba(16,26,36,.85);stroke:#2a3d4f;stroke-width:1}
-.badge:hover rect{stroke:#1d6f96;fill:rgba(20,34,46,.92)}
-.badge .b-name{font-size:10px;font-weight:700;fill:#dbe8f4;text-anchor:middle;
+.badge rect{fill:${T.overlayBadge};stroke:${T.lineBadge};stroke-width:1}
+.badge:hover rect{stroke:${T.accentLine};fill:${T.overlayBadgeHover}}
+.badge .b-name{font-size:10px;font-weight:700;fill:${T.textBadgeName};text-anchor:middle;
                dominant-baseline:central;pointer-events:none}
-.badge .b-stats{font-size:8.5px;font-weight:600;fill:#93a9bd;text-anchor:middle;
+.badge .b-stats{font-size:8.5px;font-weight:600;fill:${T.dimStats};text-anchor:middle;
                 dominant-baseline:central;pointer-events:none}
 /* 徽标右侧的一键开关：只有"该房间恰好一盏可控灯"时才出现 */
 .badge .pwr{display:none;cursor:pointer}
 .badge .pwr.on{display:block}
-.badge .pwr circle{fill:#16232f;stroke:#2f4356;stroke-width:1}
-.badge .pwr .pwr-hit{fill:transparent !important;stroke:none !important;cursor:pointer}
-.badge .pwr text{font-size:11px;fill:#7e93a8;text-anchor:middle;
+.badge .pwr circle{fill:${T.surfaceHover};stroke:${T.linePwr};stroke-width:1}
+.badge .pwr text{font-size:11px;fill:${T.dimDate};text-anchor:middle;
                  dominant-baseline:central;pointer-events:none}
-.badge .pwr.lit circle{fill:#ffcd5c;stroke:#b98f2e}
-.badge .pwr.lit text{fill:#241a08}
+.badge .pwr.lit circle{fill:${T.lightOn};stroke:${T.lightOnStroke}}
+.badge .pwr.lit text{fill:${T.onLightText}}
 .badge .pwr.dead{opacity:.35;cursor:not-allowed}
-.badge .alertdot{fill:#ff9f43;stroke:#0b1119;stroke-width:1.6;pointer-events:none}
-.badge .alertdot.bad{fill:#f85149}
+.badge .alertdot{fill:${T.warn};stroke:${T.cardBg};stroke-width:1.6;pointer-events:none}
+.badge .alertdot.bad{fill:${T.danger}}
 ha-card.night{filter:brightness(.74) saturate(.88)}
 
 .back{position:absolute;left:14px;top:12px;z-index:8;display:none;align-items:center;gap:6px;
-      background:rgba(17,28,38,.92);border:1px solid #24384a;border-radius:9px;
-      padding:6px 12px 6px 9px;color:#cfe3f2;font-size:12px;cursor:pointer;
+      background:${T.overlayModeBar};border:1px solid ${T.lineBtn};border-radius:9px;
+      padding:6px 12px 6px 9px;color:${T.textBtn};font-size:12px;cursor:pointer;
       font-family:inherit;backdrop-filter:blur(6px)}
-.back:hover{border-color:#1d6f96;background:#16232f}
-.back .arw{font-size:15px;line-height:1;color:#58c7ff}
+.back:hover{border-color:${T.accentLine};background:${T.surfaceHover}}
+.back .arw{font-size:15px;line-height:1;color:${T.accentBright}}
 
-.hud{position:absolute;right:12px;top:12px;font-size:11px;color:#93a9bd;pointer-events:none;
-     background:rgba(11,17,25,.86);border:1px solid #1b2530;border-radius:8px;
+.hud{position:absolute;right:12px;top:12px;font-size:11px;color:${T.dimStats};pointer-events:none;
+     background:${T.overlayHud};border:1px solid ${T.lineMain};border-radius:8px;
      padding:3px 9px;backdrop-filter:blur(4px)}
 
-.bubble{position:absolute;z-index:9;background:rgba(12,20,28,.95);border:1px solid #1d6f96;
-        border-radius:8px;padding:5px 10px;font-size:12px;color:#bfe9ff;white-space:nowrap;
+.bubble{position:absolute;z-index:9;background:${T.overlayBubble};border:1px solid ${T.accentLine};
+        border-radius:8px;padding:5px 10px;font-size:12px;color:${T.accentPale};white-space:nowrap;
         transform:translate(-50%,-140%);pointer-events:none;display:none}
-.bubble b{color:#fff;font-weight:700}
+.bubble b{color:${T.bubbleStrong};font-weight:700}
 
-.menu{position:absolute;z-index:9;background:#111c26;border:1px solid #1d6f96;
+.menu{position:absolute;z-index:9;background:${T.surfaceMenu};border:1px solid ${T.accentLine};
       border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:4px;
-      box-shadow:0 8px 24px #000a}
-.menu button{background:#16232f;color:#cfe3f2;border:1px solid #24384a;border-radius:7px;
+      box-shadow:0 8px 24px ${T.shadowSoft}}
+.menu button{background:${T.surfaceHover};color:${T.textBtn};border:1px solid ${T.lineBtn};border-radius:7px;
              padding:7px 12px;font-size:12px;cursor:pointer;text-align:left;
              font-family:inherit;white-space:nowrap}
-.menu button:hover{background:#1d3242;border-color:#1d6f96}
+.menu button:hover{background:${T.surfaceHover2};border-color:${T.accentLine}}
 .menu button .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
                   margin-right:7px;vertical-align:middle}
 
 /* ---------- 右栏 ---------- */
 .scenes{display:flex;flex-direction:column;gap:8px}
 .scene{display:flex;align-items:center;gap:10px;height:56px;padding:0 14px;border-radius:12px;
-       background:#13202b;border:1px solid #22333f;color:#dbe8f4;font-size:14px;font-weight:600;
+       background:${T.surfaceBtn};border:1px solid ${T.lineScene};color:${T.textBadgeName};font-size:14px;font-weight:600;
        cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
 .scene .ic{font-size:18px;line-height:1}
-.scene:hover{border-color:#1d6f96;background:#16283a}
+.scene:hover{border-color:${T.accentLine};background:${T.surfaceSceneHover}}
 .scene.dis{opacity:.34;cursor:not-allowed}
-.sec-title{font-size:11px;color:#7e93a8;margin:2px 0 0;letter-spacing:.3px}
+.sec-title{font-size:11px;color:${T.dimDate};margin:2px 0 0;letter-spacing:.3px}
 .devlist{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:6px;
          padding-right:2px}
-.empty{font-size:11px;color:#5f7386;padding:10px 2px}
+.empty{font-size:11px;color:${T.dimFoot};padding:10px 2px}
 .dev{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;
-     background:#0f1a24;border:1px solid #1a2836}
+     background:${T.surfaceCap};border:1px solid ${T.lineCap}}
 .dev .nm{flex:1;min-width:0;font-size:12px;white-space:nowrap;overflow:hidden;
-         text-overflow:ellipsis;color:#cfdeeb}
-.dev .st{font-size:11px;color:#8fa6ba;font-variant-numeric:tabular-nums}
-.dev button{border:1px solid #24384a;background:#16232f;color:#cfe3f2;border-radius:7px;
+         text-overflow:ellipsis;color:${T.textEllipsis}}
+.dev .st{font-size:11px;color:${T.dimModeBar};font-variant-numeric:tabular-nums}
+.dev button{border:1px solid ${T.lineBtn};background:${T.surfaceHover};color:${T.textBtn};border-radius:7px;
             padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
-.dev button:hover{border-color:#1d6f96;background:#1d3242}
+.dev button:hover{border-color:${T.accentLine};background:${T.surfaceHover2}}
 
 /* 亮度/色温块（仅房间视图、且该房间有可调光灯时出现） */
 .dims{display:none;flex-direction:column;gap:8px;padding:10px;border-radius:11px;
-      background:#0f1a24;border:1px solid #1a2836}
+      background:${T.surfaceCap};border:1px solid ${T.lineCap}}
 .dims.on{display:flex}
 .dims .d-row{display:flex;flex-direction:column;gap:5px}
-.dims .d-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#a9bfd2}
-.dims .d-head b{color:#e8f2fb;font-weight:600;font-variant-numeric:tabular-nums}
+.dims .d-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:${T.textDimRow}}
+.dims .d-head b{color:${T.textBase};font-weight:600;font-variant-numeric:tabular-nums}
 .dims input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:14px;
                          background:transparent;cursor:pointer;margin:0}
 .dims input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
-                         background:linear-gradient(90deg,#2b3f52,#3f5a72)}
+                         background:linear-gradient(90deg,${T.rangeTrack},${T.rangeFill})}
 .dims input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;
-                         border-radius:50%;background:#ffcd5c;margin-top:-4px;
-                         border:1px solid #0a0f15}
-.dims input[type=range].kel::-webkit-slider-thumb{background:#9fd2ef}
-.dims input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#2b3f52}
+                         border-radius:50%;background:${T.lightOn};margin-top:-4px;
+                         border:1px solid ${T.pinHalo}}
+.dims input[type=range].kel::-webkit-slider-thumb{background:${T.accentSoft}}
+.dims input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:${T.rangeTrack}}
 .dims input[type=range]::-moz-range-thumb{width:12px;height:12px;border:none;border-radius:50%;
-                         background:#ffcd5c}
+                         background:${T.lightOn}}
 
 /* ---------- 窄屏 ---------- */
 .topbar{display:none;position:absolute;left:12px;top:10px;z-index:8;gap:9px;align-items:baseline;
-        font-size:12px;color:#9fb4c8;pointer-events:none}
-.topbar b{font-size:17px;color:#e8f2fb;font-variant-numeric:tabular-nums}
+        font-size:12px;color:${T.textHud};pointer-events:none}
+.topbar b{font-size:17px;color:${T.textBase};font-variant-numeric:tabular-nums}
 @media (min-width:1000px) and (max-width:1279px){
   .shell{grid-template-columns:236px minmax(0,1fr) 272px}
   .clock .t{font-size:30px}
@@ -286,6 +493,12 @@ class SpaceMapCard extends HTMLElement {
     try { saved = localStorage.getItem("space-map-mode") || "2d"; } catch (e) {}
     this._mode = saved === "2.5d" ? "2.5d" : "2d";
     this._planMode = this._mode;
+
+    // 主题：dark / light。默认深色，localStorage 记忆。切换后整卡重建。
+    let th = "dark";
+    try { th = localStorage.getItem("space-map-theme") || "dark"; } catch (e) {}
+    this._theme = (th === "light") ? "light" : "dark";
+    T = THEMES[this._theme];
   }
 
   setConfig(config){
@@ -321,7 +534,7 @@ class SpaceMapCard extends HTMLElement {
     this._built = true;
 
     const root = this.shadowRoot;
-    root.innerHTML = `<style>${CSS}</style>
+    root.innerHTML = `<style>${cssFor(T)}</style>
       <ha-card><div class="shell">
         <aside class="left" id="left">
           <div class="clock">
@@ -346,6 +559,7 @@ class SpaceMapCard extends HTMLElement {
           <div class="topbar" id="topbar"><b id="tb-time">--:--</b><span id="tb-wx"></span></div>
           <div class="modebar" id="modetoggle">
             <button data-m="2d">2D</button><button data-m="2.5d">2.5D</button>
+            <button id="themebtn" title="切换深浅主题">${this._theme === "light" ? "🌙" : "☀"}</button>
           </div>
           <div class="back" id="back"><span class="arw">‹</span><span>返回</span></div>
           <div class="hud" id="hud"></div>
@@ -375,14 +589,14 @@ class SpaceMapCard extends HTMLElement {
     const defs = document.createElementNS(NS, "defs");
     defs.innerHTML = `
       <radialGradient id="roomGrad" cx="50%" cy="42%" r="78%">
-        <stop offset="0%" stop-color="#1d2836"/>
-        <stop offset="68%" stop-color="#141d27"/>
-        <stop offset="100%" stop-color="#0f1720"/>
+        <stop offset="0%" stop-color="${T.roomGradIn}"/>
+        <stop offset="68%" stop-color="${T.isoFloor}"/>
+        <stop offset="100%" stop-color="${T.roomGradOut}"/>
       </radialGradient>
       <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#68829e"/>
-        <stop offset="42%" stop-color="#4b6278"/>
-        <stop offset="100%" stop-color="#2f4054"/>
+        <stop offset="0%" stop-color="${T.wallGradTop}"/>
+        <stop offset="42%" stop-color="${T.wallGradMid}"/>
+        <stop offset="100%" stop-color="${T.wallGradBot}"/>
       </linearGradient>
       <filter id="softShadow" x="-35%" y="-35%" width="170%" height="170%">
         <feGaussianBlur stdDeviation="3.4"/>
@@ -391,16 +605,16 @@ class SpaceMapCard extends HTMLElement {
         <feGaussianBlur stdDeviation="2.6"/>
       </filter>
       <radialGradient id="lampPool" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"   stop-color="#ffd98a" stop-opacity=".60"/>
-        <stop offset="38%"  stop-color="#ffbe55" stop-opacity=".26"/>
-        <stop offset="72%"  stop-color="#ff9f2e" stop-opacity=".08"/>
-        <stop offset="100%" stop-color="#ff9f2e" stop-opacity="0"/>
+        <stop offset="0%"   stop-color="${T.lamp1}" stop-opacity="${T.lampOp1}"/>
+        <stop offset="38%"  stop-color="${T.lamp2}" stop-opacity="${T.lampOp2}"/>
+        <stop offset="72%"  stop-color="${T.lamp3}" stop-opacity="${T.lampOp3}"/>
+        <stop offset="100%" stop-color="${T.lamp3}" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="wallGlass" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#9fb8d0" stop-opacity=".92"/>
-        <stop offset="26%"  stop-color="#6d8aa6" stop-opacity=".88"/>
-        <stop offset="68%"  stop-color="#41586f" stop-opacity=".86"/>
-        <stop offset="100%" stop-color="#2b3d4f" stop-opacity=".90"/>
+        <stop offset="0%"   stop-color="${T.glass1}" stop-opacity=".92"/>
+        <stop offset="26%"  stop-color="${T.glass2}" stop-opacity=".88"/>
+        <stop offset="68%"  stop-color="${T.glass3}" stop-opacity=".86"/>
+        <stop offset="100%" stop-color="${T.glass4}" stop-opacity=".90"/>
       </linearGradient>
       <filter id="grain" x="0" y="0" width="100%" height="100%">
         <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11" result="n"/>
@@ -442,12 +656,12 @@ class SpaceMapCard extends HTMLElement {
     vigG.innerHTML = '';
     const vS1 = document.createElementNS(NS, "stop");
     vS1.setAttribute("offset", "55%");
-    vS1.setAttribute("stop-color", "#000000");
+    vS1.setAttribute("stop-color", T.vigEdge);
     vS1.setAttribute("stop-opacity", "0");
     const vS2 = document.createElementNS(NS, "stop");
     vS2.setAttribute("offset", "100%");
-    vS2.setAttribute("stop-color", "#000000");
-    vS2.setAttribute("stop-opacity", "0.5");
+    vS2.setAttribute("stop-color", T.vigEdge);
+    vS2.setAttribute("stop-opacity", T.vigOp);
     vigG.appendChild(vS1);
     vigG.appendChild(vS2);
     defs.appendChild(vigG);
@@ -479,6 +693,7 @@ class SpaceMapCard extends HTMLElement {
       for (const mb of modeBar.querySelectorAll("button")){
         mb.addEventListener("click", ev => {
           ev.stopPropagation();
+          if (mb.id === "themebtn"){ this._setTheme(this._theme === "dark" ? "light" : "dark"); return; }
           this._setMode(mb.dataset.m);
         });
       }
@@ -577,11 +792,13 @@ class SpaceMapCard extends HTMLElement {
       // 不可见热区：视觉按钮约 26px，热区做到 44px 直径（原则 3）。
       // 必须用透明填充而不是 fill:none —— none 收不到点击。
       const pwrHit = document.createElementNS(NS, "circle");
-      pwrHit.setAttribute("class", "pwr-hit");
       pwrHit.setAttribute("r", "22");
       pwrHit.setAttribute("cy", "0");
-      pwrHit.setAttribute("fill", "transparent");
+      // 用内联样式而不是属性/CSS 类：样式表里 .badge .pwr circle 会覆盖 presentation 属性，
+      // 之前因此把透明热区染成了可见大圆；内联 style 优先级高于样式表，且被重写后不易丢。
       pwrHit.setAttribute("pointer-events", "all");
+      pwrHit.style.fill = "transparent";
+      pwrHit.style.stroke = "none";
       const pwrC = document.createElementNS(NS, "circle");
       pwrC.setAttribute("r", String((BADGE_H * 0.52) / 2));
       pwrC.setAttribute("cy", "0");
@@ -618,7 +835,7 @@ class SpaceMapCard extends HTMLElement {
       const type = this._pinType(d);
       const multi = type === "multi";
       const r = multi ? BASE_R_MULTI : BASE_R;
-      const color = DATA.colors[d.kind] || "#8aa0b4";
+      const color = DATA.colors[d.kind] || T.dimPin;
 
       const g = document.createElementNS(NS, "g");
       g.setAttribute("class", "pin" + (type === "sensor" || type === "cover" ? "" : ""));
@@ -655,7 +872,7 @@ class SpaceMapCard extends HTMLElement {
         const div = document.createElementNS(NS, "line");
         div.setAttribute("x1", 0); div.setAttribute("y1", -r);
         div.setAttribute("x2", 0); div.setAttribute("y2", r);
-        div.setAttribute("stroke", "#0a0f15"); div.setAttribute("stroke-width", "1.6");
+        div.setAttribute("stroke", T.pinHalo); div.setAttribute("stroke-width", "1.6");
         g.appendChild(left); g.appendChild(right); g.appendChild(div);
 
       } else if (type === "sensor"){
@@ -767,7 +984,7 @@ class SpaceMapCard extends HTMLElement {
   }
 
   _wallColor(shade){
-    const a = [40, 56, 72], b = [126, 152, 178];
+    const a = T.wallShadeLo, b = T.wallShadeHi;
     const t = Math.max(0, Math.min(1, shade == null ? 0.8 : shade));
     const c = a.map((v, i) => Math.round(v + (b[i] - v) * t));
     return `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -787,11 +1004,11 @@ class SpaceMapCard extends HTMLElement {
       ao.setAttribute("id", "aoGrad");
       ao.setAttribute("cx", "50%"); ao.setAttribute("cy", "50%"); ao.setAttribute("r", "62%");
       const s1 = document.createElementNS(NS, "stop");
-      s1.setAttribute("offset", "52%"); s1.setAttribute("stop-color", "#000");
+      s1.setAttribute("offset", "52%"); s1.setAttribute("stop-color", T.aoEdge);
       s1.setAttribute("stop-opacity", "0");
       const s2 = document.createElementNS(NS, "stop");
-      s2.setAttribute("offset", "100%"); s2.setAttribute("stop-color", "#000");
-      s2.setAttribute("stop-opacity", ".42");
+      s2.setAttribute("offset", "100%"); s2.setAttribute("stop-color", T.aoEdge);
+      s2.setAttribute("stop-opacity", T.aoOp);
       ao.appendChild(s1); ao.appendChild(s2);
       defs.appendChild(ao);
 
@@ -801,9 +1018,9 @@ class SpaceMapCard extends HTMLElement {
       fg.setAttribute("x1", "0"); fg.setAttribute("y1", "0");
       fg.setAttribute("x2", "0.45"); fg.setAttribute("y2", "1");
       const f1 = document.createElementNS(NS, "stop");
-      f1.setAttribute("offset", "0%"); f1.setAttribute("stop-color", "#1b2634");
+      f1.setAttribute("offset", "0%"); f1.setAttribute("stop-color", T.floorTop);
       const f2 = document.createElementNS(NS, "stop");
-      f2.setAttribute("offset", "100%"); f2.setAttribute("stop-color", "#111922");
+      f2.setAttribute("offset", "100%"); f2.setAttribute("stop-color", T.floorBot);
       fg.appendChild(f1); fg.appendChild(f2);
       defs.appendChild(fg);
     }
@@ -844,7 +1061,7 @@ class SpaceMapCard extends HTMLElement {
 
     // 4) 墙：按 layers 的 z 升序（远→近），整组挂投影
     const wallG = document.createElementNS(NS, "g");
-    wallG.style.filter = "drop-shadow(0 4px 10px rgba(0,0,0,.55))";
+    wallG.style.filter = "drop-shadow(0 4px 10px " + T.wallShadow + ")";
     g.appendChild(wallG);
 
     for (const layer of iso.layers){
@@ -884,6 +1101,36 @@ class SpaceMapCard extends HTMLElement {
     this._applyMode();
     this._syncLamps();
     this._syncBadges();
+  }
+
+  /* 主题切换：颜色分两处生效——CSS（styles 字符串）与 JS 建的 SVG 元素。
+   * 前者需要换 <style>，后者需要在建元素时读到新 T，所以最简单可靠的办法是整卡重建。 */
+  _setTheme(name){
+    const next = (name === "light") ? "light" : "dark";
+    if (next === this._theme && this._built) return;
+    this._theme = next;
+    T = THEMES[next];
+    try { localStorage.setItem("space-map-theme", next); } catch (e) {}
+    const prev = this._view;
+    this._rebuild();
+    if (prev && prev.type === "room" && prev.name) this.openRoom(prev.name);
+    this._applyMode();
+  }
+
+  _rebuild(){
+    this._badges = new Map();
+    this._pins = new Map();
+    this._rooms = [];
+    this._dimRows = new Map();
+    this._dimKey = "";
+    this._menu = null;
+    this._view = {type:"plan"};
+    this._press = null;
+    this._suppressClick = false;
+    this._built = false;
+    const root = this.shadowRoot;
+    if (root) root.innerHTML = "";
+    if (this._hass) this._render();
   }
 
   _applyMode(){
@@ -1265,7 +1512,7 @@ class SpaceMapCard extends HTMLElement {
       }
 
       const lit = total > 0 && on > 0;
-      const mainColor = lit ? "#ffcd5c" : "#6b7f92";
+      const mainColor = lit ? T.badgeOn : T.badgeOff;
       const prefix = (total > 0 && lit) ? "● " : "";
 
       if (!narrow && b.def.temp){
@@ -1295,7 +1542,7 @@ class SpaceMapCard extends HTMLElement {
       if (tempTxt){
         const s2 = document.createElementNS(NS, "tspan");
         s2.textContent = (mainTxt ? " · " : "") + tempTxt;
-        s2.setAttribute("fill", "#93a9bd");
+        s2.setAttribute("fill", T.dimStats);
         s2.setAttribute("font-weight", "600");
         b.stats.appendChild(s2);
       }
@@ -1744,7 +1991,7 @@ class SpaceMapCard extends HTMLElement {
     for (const c of controls){
       const b = document.createElement("button");
       const on = this._stateOf(c.entity_id) === "on";
-      b.innerHTML = `<span class="dot" style="background:${on ? "#58c7ff" : "#455a6e"}"></span>` +
+      b.innerHTML = `<span class="dot" style="background:${on ? T.menuDotOn : T.menuDotOff}"></span>` +
                     `${c.label || c.entity_id}`;
       b.onclick = ev => { ev.stopPropagation(); this._call(c, "toggle"); this._closeMenu(); };
       menu.appendChild(b);
