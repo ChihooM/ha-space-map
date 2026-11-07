@@ -126,10 +126,12 @@ const THEMES = {
   lampOp2: ".26",
   lampOp3: ".08",
   badgeOn: "#ffcd5c",
+  badgeOnText: "#ffcd5c",
   badgeOff: "#6b7f92",
   menuDotOn: "#58c7ff",
   menuDotOff: "#455a6e",
   wallShadow: "rgba(0,0,0,.55)",
+  nightFilter: "brightness(.74) saturate(.88)",
   aoEdge: "#000",
   vigEdge: "#000000"
   },
@@ -179,13 +181,13 @@ const THEMES = {
   textDimRow: "#55606C",
   textHud: "#55606C",
   dimStats: "#6B7280",
-  dimModeBar: "#6B7280",
-  dimPin: "#7A8290",
-  dimLabel: "#7A8290",
-  dimDate: "#7A8290",
-  dimFoot: "#8A94A0",
-  dimUnavail: "#8A94A0",
-  dimRoomName: "#6B7280",
+  dimModeBar: "#5F6773",
+  dimPin: "#5F6773",
+  dimLabel: "#5F6773",
+  dimDate: "#5F6773",
+  dimFoot: "#66707C",
+  dimUnavail: "#66707C",
+  dimRoomName: "#5F6773",
   accentBright: "#0E6FA8",
   accentSoft: "#1B6FA8",
   accentPale: "#0B5C8A",
@@ -209,12 +211,12 @@ const THEMES = {
   unavailFill: "#D8D3CA",
   rangeTrack: "#DCD7CF",
   rangeFill: "#2A7FB8",
-  "floorTop": "#F5F2EC", "floorBot": "#EAE6DE", "aoOp": ".12", "vigOp": "0.06",
-  "wallShadeLo": [201,194,184],
+  "floorTop": "#F1EEE7", "floorBot": "#E2DCD2", "aoOp": ".20", "vigOp": "0.08",
+  "wallShadeLo": [178,170,158],
   wallShadeHi: [255,255,255],
-  wallGradTop: "#D8D2C7",
-  wallGradMid: "#E3DED5",
-  wallGradBot: "#EFEBE4",
+  wallGradTop: "#C9C2B6",
+  wallGradMid: "#DBD5CA",
+  wallGradBot: "#EAE5DC",
   glass1: "#E9E4DB",
   glass2: "#D9D3C9",
   glass3: "#C9C2B8",
@@ -222,14 +224,16 @@ const THEMES = {
   lamp1: "#F2B23A",
   lamp2: "#E08A00",
   lamp3: "#E08A00",
-  lampOp1: ".18",
-  lampOp2: ".10",
-  lampOp3: ".03",
+  lampOp1: ".30",
+  lampOp2: ".16",
+  lampOp3: ".05",
   badgeOn: "#E08A00",
-  badgeOff: "#8A8F98",
+  badgeOnText: "#9C5A00",
+  badgeOff: "#6A7078",
   menuDotOn: "#0E6FA8",
   menuDotOff: "#C9C2B8",
-  wallShadow: "rgba(31,36,41,.10)",
+  wallShadow: "rgba(31,36,41,.18)",
+  nightFilter: "brightness(.97) saturate(.99)",
   aoEdge: "#1F2429",
   vigEdge: "#1F2429"
   }
@@ -249,7 +253,7 @@ ha-card{overflow:hidden;background:${T.cardBg};border:1px solid ${T.lineMain};bo
 .right{display:flex;flex-direction:column;gap:12px;padding:14px 12px;min-height:0;
       overflow-y:auto;overflow-x:hidden;
       border-left:1px solid ${T.lineCol};background:linear-gradient(180deg,${T.panelTop},${T.panelBot})}
-.center{position:relative;min-width:0;min-height:0;overflow:hidden}
+.center{position:relative;min-width:0;min-height:0;overflow:hidden;background:${T.cardBg}}
 .center svg{width:100%;height:100%;display:block;touch-action:manipulation;max-height:none}
 
 /* ---------- 左栏 ---------- */
@@ -384,7 +388,7 @@ ha-card{overflow:hidden;background:${T.cardBg};border:1px solid ${T.lineMain};bo
 .badge .pwr.dead{opacity:.35;cursor:not-allowed}
 .badge .alertdot{fill:${T.warn};stroke:${T.cardBg};stroke-width:1.6;pointer-events:none}
 .badge .alertdot.bad{fill:${T.danger}}
-ha-card.night{filter:brightness(.74) saturate(.88)}
+ha-card.night{filter:${T.nightFilter}}
 
 .back{position:absolute;left:14px;top:12px;z-index:8;display:none;align-items:center;gap:6px;
       background:${T.overlayModeBar};border:1px solid ${T.lineBtn};border-radius:9px;
@@ -797,8 +801,11 @@ class SpaceMapCard extends HTMLElement {
       // 用内联样式而不是属性/CSS 类：样式表里 .badge .pwr circle 会覆盖 presentation 属性，
       // 之前因此把透明热区染成了可见大圆；内联 style 优先级高于样式表，且被重写后不易丢。
       pwrHit.setAttribute("pointer-events", "all");
-      pwrHit.style.fill = "transparent";
-      pwrHit.style.stroke = "none";
+      // 用 !important 内联：样式表里 `.badge .pwr.lit circle{fill:…}` 会把普通内联样式压过去，
+      // 于是这个不可见热区被染成一个可见大圆，把徽标撑破（用户反馈"off 凸出来"就是这个）。
+      pwrHit.style.setProperty("fill", "none", "important");
+      pwrHit.style.setProperty("stroke", "none", "important");
+      pwrHit.setAttribute("aria-hidden", "true");
       const pwrC = document.createElementNS(NS, "circle");
       pwrC.setAttribute("r", String((BADGE_H * 0.52) / 2));
       pwrC.setAttribute("cy", "0");
@@ -1512,7 +1519,7 @@ class SpaceMapCard extends HTMLElement {
       }
 
       const lit = total > 0 && on > 0;
-      const mainColor = lit ? T.badgeOn : T.badgeOff;
+      const mainColor = lit ? T.badgeOnText : T.badgeOff;
       const prefix = (total > 0 && lit) ? "● " : "";
 
       if (!narrow && b.def.temp){
