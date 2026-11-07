@@ -12,6 +12,15 @@ const TARGET_PIN_R = 9;
 const BADGE_H = 36;
 const TARGET_BADGE_H = 50;
 
+// 触控设备（挂墙平板 / 手机）：徽标整体放大，让 ⏻ 按钮达到 ≥44px。
+// 换算：按钮设计直径 = BADGE_H×0.52 = 18.72；目标 44px ⇒ 徽标高 ≈ 86。
+const IS_COARSE = () => {
+  try { return !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches); }
+  catch (e) { return false; }
+};
+const COARSE_BADGE_H = 86;
+const COARSE_PIN_R = 14;
+
 const WX = {
   "sunny":"晴","clear-night":"晴","partlycloudy":"局部多云","cloudy":"多云",
   "rainy":"小雨","pouring":"大雨","snowy":"雪","snowy-rainy":"雨夹雪",
@@ -165,6 +174,9 @@ ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radiu
 .badge .pwr.lit circle{fill:#ffcd5c;stroke:#b98f2e}
 .badge .pwr.lit text{fill:#241a08}
 .badge .pwr.dead{opacity:.35;cursor:not-allowed}
+.badge .alertdot{fill:#ff9f43;stroke:#0b1119;stroke-width:1.6;pointer-events:none}
+.badge .alertdot.bad{fill:#f85149}
+ha-card.night .pinstage,ha-card.night .flatstage,ha-card.night .isostage{filter:brightness(.72) saturate(.85)}
 
 .back{position:absolute;left:14px;top:12px;z-index:8;display:none;align-items:center;gap:6px;
       background:rgba(17,28,38,.92);border:1px solid #24384a;border-radius:9px;
@@ -569,7 +581,14 @@ class SpaceMapCard extends HTMLElement {
       pwr.appendChild(pwrC); pwr.appendChild(pwrT);
       g.appendChild(pwr);
 
-      const entry = {el:g, rect, name, stats, def:r, w:88, key:"", pwr, pwrC, light:null};
+      // 告警角点：门/窗开着（琥珀）或设备离线（红）。落在房间上 = 空间优先。
+      const alertDot = document.createElementNS(NS, "circle");
+      alertDot.setAttribute("class", "alertdot");
+      alertDot.setAttribute("r", "4.2");
+      alertDot.style.display = "none";
+      g.appendChild(alertDot);
+
+      const entry = {el:g, rect, name, stats, def:r, w:88, key:"", pwr, pwrC, light:null, alertDot};
 
       pwr.addEventListener("click", ev => {
         ev.stopPropagation();
@@ -1022,7 +1041,9 @@ class SpaceMapCard extends HTMLElement {
     const cw = svg.clientWidth || 620;
     const ch = svg.clientHeight || 720;
     const upp = Math.max(vb.width / cw, vb.height / ch);   // user units per screen px
-    const k = Math.max(0.2, Math.min(4, (TARGET_PIN_R * upp) / BASE_R));
+    const coarse = IS_COARSE();
+    const pinR = coarse ? COARSE_PIN_R : TARGET_PIN_R;
+    const k = Math.max(0.2, Math.min(4, (pinR * upp) / BASE_R));
     const kk = k.toFixed(4);
     for (const [, p] of this._pins){
       if (p.el.style.display === "none") continue;
@@ -1031,6 +1052,8 @@ class SpaceMapCard extends HTMLElement {
     // 等距视角：徽标要小一号、位置换成房间地板质心、不做 2D 的房间宽度夹取
     const isoMode = this._mode === "2.5d" && !!DATA.iso;
     const centers = isoMode ? this._isoRoomCenters() : null;
+    // 视觉尺寸保持统一（用户明确要求）；触控可用性靠"不可见热区"解决，不靠放大徽标
+    // —— 放大徽标会让放不下的房间被夹取，尺寸就又不统一了（试过，被否）。
     const tgtB = isoMode ? 46 : TARGET_BADGE_H;
     const kb = (tgtB * upp) / BADGE_H;
 
@@ -1121,27 +1144,47 @@ class SpaceMapCard extends HTMLElement {
       want.push([d, ratio]);
     }
 
-    // 重建（数量个位数，成本可忽略），避免累积残留
-    while (g.firstChild) g.removeChild(g.firstChild);
+    // 复用已有椭圆，而不是每次删光重建 —— 删了重建就没有过渡，
+    // 开灯会"啪"地出现。参考市面实操：常态变化用 transition（0.3~0.8s），
+    // 只有异常才用持续 animation。
+    if (!this._lampEls) this._lampEls = new Map();
+    const keep = new Set();
 
     // 光场：不给整间房平铺颜色（那会把地板染成泥棕），改用大半径径向衰减——
     // 从灯位往外自然变暗，才像"光落在屋里"。
     for (const [d, ratio] of want){
       const r = 95 + 120 * ratio;             // cm，覆盖大半个房间
-      const e = document.createElementNS(NS, "ellipse");
       // 等距视角下灯位要换成投影坐标，否则光池会落错房间
       let px = d.x, py = d.y, rr = r;
       if (this._mode === "2.5d" && DATA.iso && DATA.iso.decals){
         const dec = DATA.iso.decals.find(x => x.id === d.id);
         if (dec){ px = dec.sx; py = dec.sy; rr = r * 0.92; }
       }
+
+      let e = this._lampEls.get(d.id);
+      if (!e){
+        e = document.createElementNS(NS, "ellipse");
+        e.setAttribute("fill", "url(#lampPool)");
+        e.setAttribute("opacity", "0");
+        e.style.transition = "opacity .5s ease, rx .5s ease, ry .5s ease";
+        g.appendChild(e);
+        this._lampEls.set(d.id, e);
+      }
       e.setAttribute("cx", String(px));
       e.setAttribute("cy", String(py));
       e.setAttribute("rx", String(rr));
       e.setAttribute("ry", String(rr * 0.86));
-      e.setAttribute("fill", "url(#lampPool)");
-      e.setAttribute("opacity", String(0.72 + 0.28 * ratio));
-      g.appendChild(e);
+      // 先落地坐标、下一帧再抬不透明度，浏览器才会真的做过渡
+      requestAnimationFrame(() => e.setAttribute("opacity", String(0.72 + 0.28 * ratio)));
+      keep.add(d.id);
+    }
+
+    // 关掉的灯：先淡出，过渡结束再移除
+    for (const [id, e] of Array.from(this._lampEls)){
+      if (keep.has(id)) continue;
+      e.setAttribute("opacity", "0");
+      this._lampEls.delete(id);
+      setTimeout(() => { if (e.parentNode) e.parentNode.removeChild(e); }, 560);
     }
   }
 
