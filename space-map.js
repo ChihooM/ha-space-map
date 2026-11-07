@@ -297,10 +297,97 @@ class SpaceMapCard extends HTMLElement {
     this._bubble = root.getElementById("bubble");
     this._wrap = root.getElementById("center");
 
+    // ---- 材质与光影：一次性注入 SVG defs ----
+    const defs = document.createElementNS(NS, "defs");
+    defs.innerHTML = `
+      <radialGradient id="roomGrad" cx="50%" cy="42%" r="78%">
+        <stop offset="0%" stop-color="#1d2836"/>
+        <stop offset="68%" stop-color="#141d27"/>
+        <stop offset="100%" stop-color="#0f1720"/>
+      </radialGradient>
+      <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#68829e"/>
+        <stop offset="42%" stop-color="#4b6278"/>
+        <stop offset="100%" stop-color="#2f4054"/>
+      </linearGradient>
+      <filter id="softShadow" x="-35%" y="-35%" width="170%" height="170%">
+        <feGaussianBlur stdDeviation="3.4"/>
+      </filter>
+      <filter id="glowBlur" x="-150%" y="-150%" width="400%" height="400%">
+        <feGaussianBlur stdDeviation="2.6"/>
+      </filter>
+      <radialGradient id="lampPool" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#ffd98a" stop-opacity=".60"/>
+        <stop offset="38%"  stop-color="#ffbe55" stop-opacity=".26"/>
+        <stop offset="72%"  stop-color="#ff9f2e" stop-opacity=".08"/>
+        <stop offset="100%" stop-color="#ff9f2e" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="wallGlass" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#9fb8d0" stop-opacity=".92"/>
+        <stop offset="26%"  stop-color="#6d8aa6" stop-opacity=".88"/>
+        <stop offset="68%"  stop-color="#41586f" stop-opacity=".86"/>
+        <stop offset="100%" stop-color="#2b3d4f" stop-opacity=".90"/>
+      </linearGradient>
+      <filter id="grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11" result="n"/>
+        <feColorMatrix in="n" type="saturate" values="0"/>
+        <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+      </filter>
+      <clipPath id="roomsClip"></clipPath>`;
+    // 房间联合剪裁：灯光不能穿墙漏到屋外
+    // 房间联合剪裁：用 DOM 构建，避免字符串拼引号（拼坏过一次，语法直接崩）
+    const clipEl = defs.querySelector("#roomsClip");
+    if (clipEl){
+      for (const r of DATA.rooms){
+        const cp = document.createElementNS(NS, "polygon");
+        cp.setAttribute("points", r.points.map(q => q.join(",")).join(" "));
+        clipEl.appendChild(cp);
+      }
+    }
+    this._svg.appendChild(defs);
+
+    // 房间裁剪：灯光必须被墙裁住，否则光会透到隔壁和户外（物理上不可能）
+    this._roomClip = new Map();
+    DATA.rooms.forEach((r, i) => {
+      const cp = document.createElementNS(NS, "clipPath");
+      cp.setAttribute("id", "rclip-" + i);
+      cp.setAttribute("clipPathUnits", "userSpaceOnUse");
+      const poly = document.createElementNS(NS, "polygon");
+      poly.setAttribute("points", r.points.map(q => q.join(",")).join(" "));
+      cp.appendChild(poly);
+      defs.appendChild(cp);
+      this._roomClip.set(r.name, "rclip-" + i);
+    });
+
+    // 暗角渐变：房子中间亮、四周沉下去
+    const vigG = document.createElementNS(NS, "radialGradient");
+    vigG.setAttribute("id", "vigGrad");
+    vigG.setAttribute("cx", "50%");
+    vigG.setAttribute("cy", "46%");
+    vigG.setAttribute("r", "74%");
+    vigG.innerHTML = '';
+    const vS1 = document.createElementNS(NS, "stop");
+    vS1.setAttribute("offset", "55%");
+    vS1.setAttribute("stop-color", "#000000");
+    vS1.setAttribute("stop-opacity", "0");
+    const vS2 = document.createElementNS(NS, "stop");
+    vS2.setAttribute("offset", "100%");
+    vS2.setAttribute("stop-color", "#000000");
+    vS2.setAttribute("stop-opacity", "0.5");
+    vigG.appendChild(vS1);
+    vigG.appendChild(vS2);
+    defs.appendChild(vigG);
+
     for (const r of DATA.rooms){
       const p = document.createElementNS(NS, "polygon");
       p.setAttribute("points", r.points.map(q => q.join(",")).join(" "));
       p.setAttribute("class", "room");
+      // 材质：径向渐变模拟室内环境光（中心略亮、靠墙略暗）
+      p.style.fill = "url(#roomGrad)";
+      // 环境光遮蔽：房间边缘压暗一圈，读起来才有"墙脚"
+      p.style.stroke = "#0a1017";
+      p.style.strokeWidth = "2.6";
+      p.style.strokeLinejoin = "round";
       p.addEventListener("click", () => this.openRoom(r.name));
       this._svg.appendChild(p);
       this._rooms.push({name:r.name, el:p, def:r});
@@ -316,7 +403,14 @@ class SpaceMapCard extends HTMLElement {
       r._labelEl = t;
     }
 
-    // 墙：中心线 ±7cm 生成有厚度的填充带，再叠一条亮边（原来是 9px 细线，看起来像示意图）
+    // 灯光层：亮灯在地板上投下暖色光池。必须画在墙之前，才像"光落在屋里"而不是贴在墙上。
+    this._lampG = document.createElementNS(NS, "g");
+    this._lampG.setAttribute("pointer-events", "none");
+    this._lampG.setAttribute("clip-path", "url(#roomsClip)");
+    this._lampG.style.mixBlendMode = "screen";
+    this._svg.appendChild(this._lampG);
+
+    // 墙：中心线 ±7cm 生成有厚度的填充带
     const T = 14, HALF = T / 2;
     const bands = [];
     for (const w of DATA.walls){
@@ -329,17 +423,67 @@ class SpaceMapCard extends HTMLElement {
         [x2 - nx, y2 - ny], [x1 - nx, y1 - ny],
       ].map(p => p.map(v => Math.round(v * 100) / 100).join(",")).join(" ");
       bands.push(pts);
+    }
+
+    // 1) 投影：整体偏移 + 高斯模糊，制造"墙体立起来"的体量感
+    const shadowG = document.createElementNS(NS, "g");
+    shadowG.setAttribute("filter", "url(#softShadow)");
+    shadowG.setAttribute("transform", "translate(2.6,3.6)");
+    shadowG.setAttribute("opacity", "0.62");
+    for (const pts of bands){
+      const s = document.createElementNS(NS, "polygon");
+      s.setAttribute("points", pts);
+      s.setAttribute("fill", "#000000");
+      s.setAttribute("stroke", "none");
+      shadowG.appendChild(s);
+    }
+    this._svg.appendChild(shadowG);
+
+    // 2) 墙身：竖向渐变（受光面亮、背光面暗），替代原来的纯色填充
+    for (const pts of bands){
       const poly = document.createElementNS(NS, "polygon");
       poly.setAttribute("points", pts);
-      poly.setAttribute("class", "wallband");
+      poly.setAttribute("fill", "url(#wallGlass)");
+      poly.setAttribute("stroke", "none");
       this._svg.appendChild(poly);
     }
+
+    // 3) 受光高光边（保留原有亮边，材质感靠它收口）
     for (const pts of bands){
       const edge = document.createElementNS(NS, "polygon");
       edge.setAttribute("points", pts);
       edge.setAttribute("class", "walledge");
       this._svg.appendChild(edge);
     }
+
+    // 4) 表面微纹理：一层极淡的噪点，压掉纯色渐变那种"塑料感"
+    const grain = document.createElementNS(NS, "rect");
+    grain.setAttribute("x", "-30");
+    grain.setAttribute("y", "-30");
+    grain.setAttribute("width", "620");
+    grain.setAttribute("height", "920");
+    grain.setAttribute("fill", "#ffffff");
+    grain.setAttribute("filter", "url(#grain)");
+    grain.setAttribute("pointer-events", "none");
+    grain.style.mixBlendMode = "overlay";
+    this._svg.appendChild(grain);
+
+    // 4) 暗角：整张图的四周压暗，视线自然收到房子中间
+    let xmin = 1e9, ymin = 1e9, xmax = -1e9, ymax = -1e9;
+    for (const r of DATA.rooms){
+      for (const p of r.points){
+        xmin = Math.min(xmin, p[0]); xmax = Math.max(xmax, p[0]);
+        ymin = Math.min(ymin, p[1]); ymax = Math.max(ymax, p[1]);
+      }
+    }
+    const vig = document.createElementNS(NS, "rect");
+    vig.setAttribute("x", String(xmin - 80));
+    vig.setAttribute("y", String(ymin - 80));
+    vig.setAttribute("width", String(xmax - xmin + 160));
+    vig.setAttribute("height", String(ymax - ymin + 160));
+    vig.setAttribute("fill", "url(#vigGrad)");
+    vig.setAttribute("pointer-events", "none");
+    this._svg.appendChild(vig);
 
     this._buildBadges();
     this._buildPins();
@@ -768,9 +912,66 @@ class SpaceMapCard extends HTMLElement {
       p.el.classList.add(this._devState(p.def));
     }
     this._syncBadges();
+    this._syncLamps();
     this._syncChrome();
     this._syncRight();
     this._fitPins();
+  }
+
+  /* 亮着的灯在地板上投一层暖色光池。只有 on 才画，且亮度越高光池越大越亮。 */
+  _syncLamps(){
+    const g = this._lampG;
+    if (!g) return;
+    const want = [];
+    for (const d of DATA.devices){
+      const ctl = this._controlsOf(d);
+      const lights = ctl.filter(c => c.domain === "light");
+      if (!lights.length) continue;
+      // 多键面板不是照明，不投影
+      if (d.gangs && d.gangs.length > 1) continue;
+      let onCount = 0, bright = 0, n = 0;
+      for (const c of lights){
+        if (this._stateOf(c.entity_id) === "on"){
+          onCount++;
+          const b = this._attrsOf(c.entity_id).brightness;
+          if (typeof b === "number"){ bright += b; n++; }
+        }
+      }
+      if (!onCount) continue;
+      const ratio = n ? Math.min(1, (bright / n) / 255) : 0.8;
+      want.push([d, ratio]);
+    }
+
+    // 重建（数量个位数，成本可忽略），避免累积残留
+    while (g.firstChild) g.removeChild(g.firstChild);
+
+    // 第一层：整间房被点亮——面积大、透明度低，才像"光充满房间"，而不是地上一个小光斑
+    const byArea = new Map();
+    for (const [d, ratio] of want){
+      byArea.set(d.area, Math.max(byArea.get(d.area) || 0, ratio));
+    }
+    for (const r of DATA.rooms){
+      const ratio = byArea.get(r.name);
+      if (!ratio) continue;
+      const p = document.createElementNS(NS, "polygon");
+      p.setAttribute("points", r.points.map(q => q.join(",")).join(" "));
+      p.setAttribute("fill", "#ffb85c");
+      p.setAttribute("opacity", String(0.05 + 0.10 * ratio));
+      g.appendChild(p);
+    }
+
+    // 第二层：灯位中心的暖色光池（给位置感）
+    for (const [d, ratio] of want){
+      const r = 32 + 40 * ratio;              // cm：亮度越高，光池越大（但别糊满整屋）
+      const e = document.createElementNS(NS, "ellipse");
+      e.setAttribute("cx", String(d.x));
+      e.setAttribute("cy", String(d.y));
+      e.setAttribute("rx", String(r));
+      e.setAttribute("ry", String(r * 0.82));
+      e.setAttribute("fill", "url(#lampPool)");
+      e.setAttribute("opacity", String(0.34 + 0.30 * ratio));
+      g.appendChild(e);
+    }
   }
 
   _syncBadges(){
