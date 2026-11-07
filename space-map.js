@@ -1,46 +1,95 @@
-/* space-map v0.2 · 空间地图 Lovelace 卡片（零构建、单文件、无依赖）
- * 视图：plan（整屋房间徽标） / room:<名称>（单房间放大 + 设备图钉）
- * 数据在 {"version": "0.2.0", "units": "cm", "canvas": [560, 860], "colors": {"light": "#ffcd5c", "cover": "#b08aff", "switch": "#5eead4", "wall_switch": "#5eead4", "media_player": "#ff8a5c", "sensor": "#78d18c", "binary_sensor": "#78d18c", "button": "#ff78aa", "scene": "#ff78aa", "vacuum": "#c8c87a", "gateway": "#8ab4ff", "pet": "#c9a0ff"}, "rooms": [{"name": "卧室", "points": [[379.0, 70.0], [340.0, 70.0], [340.0, 0.0], [160.0, 0.0], [160.0, 70.0], [103.0, 70.0], [103.0, 410.0], [379.0, 410.0]], "bbox": [103.0, 0.0, 379.0, 410.0], "label": [241.0, 182.0], "temp": "sensor.wen_kong_ban_lu_w100_wo_shi_wen_du_wen_du"}, {"name": "大阳台", "points": [[550.0, 190.0], [379.0, 190.0], [379.0, 410.0], [550.0, 410.0]], "bbox": [379.0, 190.0, 550.0, 410.0], "label": [465.0, 276.0], "temp": null}, {"name": "客厅", "points": [[550.0, 410.0], [235.0, 410.0], [235.0, 665.0], [550.0, 665.0]], "bbox": [235.0, 410.0, 550.0, 665.0], "label": [363.0, 538.0], "temp": null}, {"name": "书房", "points": [[550.0, 665.0], [235.0, 665.0], [235.0, 740.0], [380.0, 740.0], [380.0, 850.0], [550.0, 850.0]], "bbox": [235.0, 665.0, 550.0, 850.0], "label": [465.0, 751.0], "temp": null}, {"name": "玄关", "points": [[380.0, 740.0], [235.0, 740.0], [235.0, 850.0], [380.0, 850.0]], "bbox": [235.0, 740.0, 380.0, 850.0], "label": [289.0, 794.0], "temp": "sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_wen_du"}, {"name": "浴室", "points": [[235.0, 410.0], [103.0, 410.0], [103.0, 665.0], [235.0, 665.0]], "bbox": [103.0, 410.0, 235.0, 665.0], "label": [169.0, 476.0], "temp": null}, {"name": "小阳台", "points": [[103.0, 420.0], [0.0, 420.0], [0.0, 665.0], [103.0, 665.0]], "bbox": [0.0, 420.0, 103.0, 665.0], "label": [52.0, 472.0], "temp": null}, {"name": "厨房", "points": [[235.0, 665.0], [0.0, 665.0], [0.0, 850.0], [235.0, 850.0]], "bbox": [0.0, 665.0, 235.0, 850.0], "label": [92.0, 757.0], "temp": null}], "walls": [[340.0, 0.0, 160.0, 0.0], [340.0, 0.0, 340.0, 70.0], [160.0, 0.0, 160.0, 70.0], [379.0, 70.0, 340.0, 70.0], [160.0, 70.0, 103.0, 70.0], [379.0, 70.0, 379.0, 410.0], [103.0, 70.0, 103.0, 410.0], [550.0, 190.0, 395.0, 190.0], [550.0, 190.0, 550.0, 850.0], [550.0, 850.0, 0.0, 850.0], [0.0, 420.0, 0.0, 850.0], [103.0, 420.0, 0.0, 420.0], [550.0, 410.0, 379.0, 410.0], [379.0, 410.0, 103.0, 410.0], [235.0, 410.0, 235.0, 850.0], [235.0, 665.0, 0.0, 665.0], [103.0, 410.0, 103.0, 665.0], [380.0, 740.0, 235.0, 740.0], [380.0, 740.0, 380.0, 850.0], [379.0, 190.0, 395.0, 190.0]], "devices": [{"id": "ff7fade407d57e89edb581497f044a06", "name": "卧室·主灯", "area": "卧室", "kind": "light", "rank": 1, "x": 243.1, "y": 226.6, "gangs": null, "controls": [{"entity_id": "light.wo_shi_deng", "domain": "light", "label": "卧室·主灯"}], "state_entity": null}, {"id": "4007e516fb9d485361b04dd5c498edd6", "name": "卧室·窗帘", "area": "卧室", "kind": "cover", "rank": 2, "x": 249.4, "y": 16.7, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_wo_shi", "domain": "cover", "label": "卧室·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_wo_shi_pei_zhi_zhuang_tai"}, {"id": "ad3ec979798114adae08d0d0c7577cbd", "name": "卧室·温湿度 W100", "area": "卧室", "kind": "sensor", "rank": 3, "x": 111.4, "y": 325.5, "gangs": null, "controls": [], "state_entity": "sensor.wen_kong_ban_lu_w100_wo_shi_shi_du_shi_du"}, {"id": "8b9820181959ca31db32535753b2fe70", "name": "卧室·插座（床前）", "area": "卧室", "kind": "switch", "rank": null, "x": 363.5, "y": 146.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_qian", "domain": "switch", "label": "卧室·插座（床前）"}], "state_entity": null}, {"id": "edd0ea37114bc19c4d355cb10fe377a1", "name": "卧室·插座（床右）", "area": "卧室", "kind": "switch", "rank": null, "x": 116.2, "y": 116.3, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_you", "domain": "switch", "label": "卧室·插座（床右）"}], "state_entity": null}, {"id": "f1ad918b7483a2d56fb21f02bdc7b735", "name": "卧室·插座（床左）", "area": "卧室", "kind": "switch", "rank": null, "x": 109.9, "y": 290.6, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_zuo", "domain": "switch", "label": "卧室·插座（床左）"}], "state_entity": null}, {"id": "97fe1bcbd4d4d92c8cbd1bb64f6a3711", "name": "大阳台·主灯", "area": "大阳台", "kind": "light", "rank": 12, "x": 464.4, "y": 304.7, "gangs": null, "controls": [{"entity_id": "light.da_yang_tai_deng", "domain": "light", "label": "大阳台·主灯"}], "state_entity": null}, {"id": "a4dc161a95e44eec9ad78b4d739d8e78", "name": "大阳台·窗帘", "area": "大阳台", "kind": "cover", "rank": 13, "x": 464.1, "y": 406.2, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_da_yang_tai", "domain": "cover", "label": "大阳台·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_da_yang_tai_pei_zhi_zhuang_tai"}, {"id": "423c971c749041aa8c48fbee7999b842", "name": "大阳台·人体传感器", "area": "大阳台", "kind": "sensor", "rank": 14, "x": 512.4, "y": 368.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ren_ti_chuan_gan_qi_e1_da_yang_tai_ren_ci_chu_you_ren"}, {"id": "adc5a8df8794715f16132d2a31fb379b", "name": "大阳台·门窗传感器", "area": "大阳台", "kind": "sensor", "rank": 15, "x": 417.5, "y": 368.8, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_da_yang_tai_dian_chi"}, {"id": "9f39c0684b08c541f5fa29a7891265c9", "name": "大阳台·猫厕所 MAX2", "area": "大阳台", "kind": "binary_sensor", "rank": null, "x": 500.8, "y": 237.5, "gangs": null, "controls": [{"entity_id": "switch.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_auto_clean", "domain": "switch", "label": "大阳台·猫厕所 MAX2"}], "state_entity": "binary_sensor.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_frequent_use_detection"}, {"id": "66fc6938448c0ad8e4b9ccfec87d2788", "name": "客厅·主灯", "area": "客厅", "kind": "light", "rank": 4, "x": 394.9, "y": 539.8, "gangs": null, "controls": [{"entity_id": "light.ke_ting_deng", "domain": "light", "label": "客厅·主灯"}], "state_entity": null}, {"id": "fb0320b98acb38c57b81cccf3af3d47b", "name": "客厅·HomePod mini", "area": "客厅", "kind": "media", "rank": 5, "x": 538.6, "y": 461.2, "gangs": null, "controls": [{"entity_id": "media_player.qi_ju_shi_qi_ju_shi", "domain": "media_player", "label": "客厅·HomePod mini"}], "state_entity": null}, {"id": "fd9f10aef94a2d3b9246e93a2a8dcb8d", "name": "客厅·喂食器 SOLO", "area": "客厅", "kind": "pet", "rank": 6, "x": 249.4, "y": 504.3, "gangs": null, "controls": [{"entity_id": "switch.zhi_neng_wei_shi_qi_solo_child_lock", "domain": "switch", "label": "客厅·喂食器 SOLO"}], "state_entity": "binary_sensor.zhi_neng_wei_shi_qi_solo_feeding"}, {"id": "698d691fe171e97a443e58b50a0565d3", "name": "客厅·插座（右）", "area": "客厅", "kind": "switch", "rank": null, "x": 250.1, "y": 541.1, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_you", "domain": "switch", "label": "客厅·插座（右）"}], "state_entity": null}, {"id": "375d8da12c25634cdd1a2da25b93b2c4", "name": "客厅·插座（左）", "area": "客厅", "kind": "switch", "rank": null, "x": 249.5, "y": 569.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_zuo", "domain": "switch", "label": "客厅·插座（左）"}], "state_entity": null}, {"id": "5894c96471507bfde2782d4cfe9163ce", "name": "客厅·插座（沙发背）", "area": "客厅", "kind": "switch", "rank": null, "x": 537.6, "y": 505.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_sha_fa_bei", "domain": "switch", "label": "客厅·插座（沙发背）"}], "state_entity": null}, {"id": "09b680427b812cb650adf19848ddbccf", "name": "书房·书桌灯", "area": "书房", "kind": "light", "rank": 7, "x": 440, "y": 745.5, "gangs": null, "controls": [{"entity_id": "light.shu_zhuo_deng", "domain": "light", "label": "书房·书桌灯"}], "state_entity": null}, {"id": "596fce71fe6f7f0f9b0fad4fefdbabf3", "name": "书房·落地灯 T1", "area": "书房", "kind": "light", "rank": 8, "x": 513, "y": 689.6, "gangs": null, "controls": [{"entity_id": "light.liu_guang_yi_cai_luo_di_deng_t1", "domain": "light", "label": "书房·落地灯 T1"}], "state_entity": null}, {"id": "9e5dd2e7d059b604cbbe60fe1286ba17", "name": "书房·魔方控制器", "area": "书房", "kind": "scene", "rank": 9, "x": 513, "y": 747.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.mo_fang_kong_zhi_qi_shu_fang_fan_zhuan_90_dian_chi"}, {"id": "e0a3d7647646e8eca04f516f077460a2", "name": "中枢·M300 网关", "area": "书房", "kind": "gateway", "rank": 10, "x": 514.1, "y": 807, "gangs": null, "controls": [], "state_entity": null}, {"id": "9c9cd3b78a8b1319202fb7d39b835e6a", "name": "书房·插座", "area": "书房", "kind": "switch", "rank": null, "x": 537, "y": 777.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_shu_fang", "domain": "switch", "label": "书房·插座"}], "state_entity": null}, {"id": "4924080c0ddd6bda52b7ce427fea47b2", "name": "玄关·人在传感器 FP310", "area": "玄关", "kind": "sensor", "rank": 18, "x": 310, "y": 828.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_ci_chu_you_ren"}, {"id": "22eb566921aef0f3f1e0709cb69f64d7", "name": "玄关·门窗传感器 P100", "area": "玄关", "kind": "sensor", "rank": 19, "x": 260, "y": 827.1, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_zhuang_tai_chuan_gan_qi_p100_men"}, {"id": "049336a35d4579631fd76b18d86fa881", "name": "浴室·墙面开关 Z1", "area": "浴室", "kind": "wall_switch", "rank": 20, "x": 169.1, "y": 545.9, "gangs": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "label": "排气扇", "domain": "light", "endpoint": 40, "key": "键1"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "label": "浴室灯", "domain": "light", "endpoint": 41, "key": "键2"}], "controls": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "domain": "light", "label": "排气扇"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "domain": "light", "label": "浴室灯"}], "state_entity": null}, {"id": "0b8ff5852ef9dc1f9ec9d4d336e09c6d", "name": "浴室·扫地机 P20", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 146, "y": 480.1, "gangs": null, "controls": [{"entity_id": "switch.wei_sheng_jian_p20_do_not_disturb", "domain": "switch", "label": "浴室·扫地机 P20"}], "state_entity": "binary_sensor.wei_sheng_jian_p20_charging"}, {"id": "61d8bd52d0a88008ec04bfc7c9377e6d", "name": "浴室·扫地机基站", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 124.1, "y": 479.6, "gangs": null, "controls": [{"entity_id": "switch.p20_dock_child_lock", "domain": "switch", "label": "浴室·扫地机基站"}], "state_entity": "binary_sensor.p20_dock_clean_water_box"}, {"id": "d9bf92e660552daafed3219236016c29", "name": "小阳台·主灯", "area": "小阳台", "kind": "light", "rank": 16, "x": 50.1, "y": 550, "gangs": null, "controls": [{"entity_id": "light.xiao_yang_tai_deng", "domain": "light", "label": "小阳台·主灯"}], "state_entity": null}, {"id": "0b534cf739f7e91789d82a5951505014", "name": "小阳台·门窗传感器", "area": "小阳台", "kind": "sensor", "rank": 17, "x": 77.1, "y": 653.4, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_xiao_yang_tai_dian_chi"}, {"id": "9fdf8c4a39d44aa3d58626fb37444950", "name": "厨房·主灯", "area": "厨房", "kind": "light", "rank": 11, "x": 120, "y": 759.9, "gangs": null, "controls": [{"entity_id": "light.chu_fang_deng", "domain": "light", "label": "厨房·主灯"}], "state_entity": null}, {"id": "11718e1c7dd841f8f670ead0d41cada9", "name": "厨房·插座（右）", "area": "厨房", "kind": "switch", "rank": null, "x": 172.4, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_you", "domain": "switch", "label": "厨房·插座（右）"}], "state_entity": null}, {"id": "49a3b69908da27b42c121a2d36e57cf6", "name": "厨房·插座（左）", "area": "厨房", "kind": "switch", "rank": null, "x": 198.9, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_zuo", "domain": "switch", "label": "厨房·插座（左）"}], "state_entity": null}], "topology": [{"target": "书房·书桌灯", "via": "玄关·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键1 → 切换书桌灯"}, {"target": "客厅·主灯", "via": "玄关·墙面开关 Z1", "gang": 2, "note": "Studio 自动化：按键2 → 切换客厅灯"}, {"target": "卧室·主灯", "via": "卧室·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键 → 切换卧室灯"}], "stats": {"rooms": 8, "devices": 32}} 处注入，由 tools/make_card.py 生成
+/* space-map v0.3 · 空间地图 Lovelace 卡片（零构建、单文件、无依赖）
+ * 宽屏：左栏信息 / 中栏户型 / 右栏操作；窄屏：只留中栏 + 顶部信息条
+ * 数据在 {"version": "0.3.0", "units": "cm", "canvas": [560, 860], "colors": {"light": "#ffcd5c", "cover": "#b08aff", "switch": "#5eead4", "wall_switch": "#5eead4", "media_player": "#ff8a5c", "sensor": "#78d18c", "binary_sensor": "#78d18c", "button": "#ff78aa", "scene": "#ff78aa", "vacuum": "#c8c87a", "gateway": "#8ab4ff", "pet": "#c9a0ff"}, "rooms": [{"name": "卧室", "points": [[379.0, 70.0], [340.0, 70.0], [340.0, 0.0], [160.0, 0.0], [160.0, 70.0], [103.0, 70.0], [103.0, 410.0], [379.0, 410.0]], "bbox": [103.0, 0.0, 379.0, 410.0], "label": [241.0, 182.0], "temp": "sensor.wen_kong_ban_lu_w100_wo_shi_wen_du_wen_du"}, {"name": "大阳台", "points": [[550.0, 190.0], [379.0, 190.0], [379.0, 410.0], [550.0, 410.0]], "bbox": [379.0, 190.0, 550.0, 410.0], "label": [465.0, 276.0], "temp": null}, {"name": "客厅", "points": [[550.0, 410.0], [235.0, 410.0], [235.0, 665.0], [550.0, 665.0]], "bbox": [235.0, 410.0, 550.0, 665.0], "label": [363.0, 538.0], "temp": null}, {"name": "书房", "points": [[550.0, 665.0], [235.0, 665.0], [235.0, 740.0], [380.0, 740.0], [380.0, 850.0], [550.0, 850.0]], "bbox": [235.0, 665.0, 550.0, 850.0], "label": [465.0, 751.0], "temp": null}, {"name": "玄关", "points": [[380.0, 740.0], [235.0, 740.0], [235.0, 850.0], [380.0, 850.0]], "bbox": [235.0, 740.0, 380.0, 850.0], "label": [289.0, 794.0], "temp": "sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_wen_du"}, {"name": "浴室", "points": [[235.0, 410.0], [103.0, 410.0], [103.0, 665.0], [235.0, 665.0]], "bbox": [103.0, 410.0, 235.0, 665.0], "label": [169.0, 476.0], "temp": null}, {"name": "小阳台", "points": [[103.0, 420.0], [0.0, 420.0], [0.0, 665.0], [103.0, 665.0]], "bbox": [0.0, 420.0, 103.0, 665.0], "label": [52.0, 472.0], "temp": null}, {"name": "厨房", "points": [[235.0, 665.0], [0.0, 665.0], [0.0, 850.0], [235.0, 850.0]], "bbox": [0.0, 665.0, 235.0, 850.0], "label": [92.0, 757.0], "temp": null}], "walls": [[340.0, 0.0, 160.0, 0.0], [340.0, 0.0, 340.0, 70.0], [160.0, 0.0, 160.0, 70.0], [379.0, 70.0, 340.0, 70.0], [160.0, 70.0, 103.0, 70.0], [379.0, 70.0, 379.0, 410.0], [103.0, 70.0, 103.0, 410.0], [550.0, 190.0, 395.0, 190.0], [550.0, 190.0, 550.0, 850.0], [550.0, 850.0, 0.0, 850.0], [0.0, 420.0, 0.0, 850.0], [103.0, 420.0, 0.0, 420.0], [550.0, 410.0, 379.0, 410.0], [379.0, 410.0, 103.0, 410.0], [235.0, 410.0, 235.0, 850.0], [235.0, 665.0, 0.0, 665.0], [103.0, 410.0, 103.0, 665.0], [380.0, 740.0, 235.0, 740.0], [380.0, 740.0, 380.0, 850.0], [379.0, 190.0, 395.0, 190.0]], "devices": [{"id": "ff7fade407d57e89edb581497f044a06", "name": "卧室·主灯", "area": "卧室", "kind": "light", "rank": 1, "x": 243.1, "y": 226.6, "gangs": null, "controls": [{"entity_id": "light.wo_shi_deng", "domain": "light", "label": "卧室·主灯"}], "state_entity": null, "battery": null}, {"id": "4007e516fb9d485361b04dd5c498edd6", "name": "卧室·窗帘", "area": "卧室", "kind": "cover", "rank": 2, "x": 249.4, "y": 16.7, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_wo_shi", "domain": "cover", "label": "卧室·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_wo_shi_pei_zhi_zhuang_tai", "battery": null}, {"id": "ad3ec979798114adae08d0d0c7577cbd", "name": "卧室·温湿度 W100", "area": "卧室", "kind": "sensor", "rank": 3, "x": 111.4, "y": 325.5, "gangs": null, "controls": [], "state_entity": "sensor.wen_kong_ban_lu_w100_wo_shi_shi_du_shi_du", "battery": null}, {"id": "8b9820181959ca31db32535753b2fe70", "name": "卧室·插座（床前）", "area": "卧室", "kind": "switch", "rank": null, "x": 363.5, "y": 146.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_qian", "domain": "switch", "label": "卧室·插座（床前）"}], "state_entity": null, "battery": null}, {"id": "edd0ea37114bc19c4d355cb10fe377a1", "name": "卧室·插座（床右）", "area": "卧室", "kind": "switch", "rank": null, "x": 116.2, "y": 116.3, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_you", "domain": "switch", "label": "卧室·插座（床右）"}], "state_entity": null, "battery": null}, {"id": "f1ad918b7483a2d56fb21f02bdc7b735", "name": "卧室·插座（床左）", "area": "卧室", "kind": "switch", "rank": null, "x": 109.9, "y": 290.6, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_zuo", "domain": "switch", "label": "卧室·插座（床左）"}], "state_entity": null, "battery": null}, {"id": "97fe1bcbd4d4d92c8cbd1bb64f6a3711", "name": "大阳台·主灯", "area": "大阳台", "kind": "light", "rank": 12, "x": 464.4, "y": 304.7, "gangs": null, "controls": [{"entity_id": "light.da_yang_tai_deng", "domain": "light", "label": "大阳台·主灯"}], "state_entity": null, "battery": null}, {"id": "a4dc161a95e44eec9ad78b4d739d8e78", "name": "大阳台·窗帘", "area": "大阳台", "kind": "cover", "rank": 13, "x": 464.1, "y": 406.2, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_da_yang_tai", "domain": "cover", "label": "大阳台·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_da_yang_tai_pei_zhi_zhuang_tai", "battery": null}, {"id": "423c971c749041aa8c48fbee7999b842", "name": "大阳台·人体传感器", "area": "大阳台", "kind": "sensor", "rank": 14, "x": 512.4, "y": 368.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ren_ti_chuan_gan_qi_e1_da_yang_tai_ren_ci_chu_you_ren", "battery": null}, {"id": "adc5a8df8794715f16132d2a31fb379b", "name": "大阳台·门窗传感器", "area": "大阳台", "kind": "sensor", "rank": 15, "x": 417.5, "y": 368.8, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_da_yang_tai_dian_chi", "battery": null}, {"id": "9f39c0684b08c541f5fa29a7891265c9", "name": "大阳台·猫厕所 MAX2", "area": "大阳台", "kind": "binary_sensor", "rank": null, "x": 500.8, "y": 237.5, "gangs": null, "controls": [{"entity_id": "switch.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_auto_clean", "domain": "switch", "label": "大阳台·猫厕所 MAX2"}], "state_entity": "binary_sensor.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_frequent_use_detection", "battery": null}, {"id": "66fc6938448c0ad8e4b9ccfec87d2788", "name": "客厅·主灯", "area": "客厅", "kind": "light", "rank": 4, "x": 394.9, "y": 539.8, "gangs": null, "controls": [{"entity_id": "light.ke_ting_deng", "domain": "light", "label": "客厅·主灯"}], "state_entity": null, "battery": null}, {"id": "fb0320b98acb38c57b81cccf3af3d47b", "name": "客厅·HomePod mini", "area": "客厅", "kind": "media", "rank": 5, "x": 538.6, "y": 461.2, "gangs": null, "controls": [{"entity_id": "media_player.qi_ju_shi_qi_ju_shi", "domain": "media_player", "label": "客厅·HomePod mini"}], "state_entity": null, "battery": null}, {"id": "fd9f10aef94a2d3b9246e93a2a8dcb8d", "name": "客厅·喂食器 SOLO", "area": "客厅", "kind": "pet", "rank": 6, "x": 249.4, "y": 504.3, "gangs": null, "controls": [{"entity_id": "switch.zhi_neng_wei_shi_qi_solo_child_lock", "domain": "switch", "label": "客厅·喂食器 SOLO"}], "state_entity": "binary_sensor.zhi_neng_wei_shi_qi_solo_feeding", "battery": "sensor.zhi_neng_wei_shi_qi_solo_battery_level"}, {"id": "698d691fe171e97a443e58b50a0565d3", "name": "客厅·插座（右）", "area": "客厅", "kind": "switch", "rank": null, "x": 250.1, "y": 541.1, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_you", "domain": "switch", "label": "客厅·插座（右）"}], "state_entity": null, "battery": null}, {"id": "375d8da12c25634cdd1a2da25b93b2c4", "name": "客厅·插座（左）", "area": "客厅", "kind": "switch", "rank": null, "x": 249.5, "y": 569.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_zuo", "domain": "switch", "label": "客厅·插座（左）"}], "state_entity": null, "battery": null}, {"id": "5894c96471507bfde2782d4cfe9163ce", "name": "客厅·插座（沙发背）", "area": "客厅", "kind": "switch", "rank": null, "x": 537.6, "y": 505.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_sha_fa_bei", "domain": "switch", "label": "客厅·插座（沙发背）"}], "state_entity": null, "battery": null}, {"id": "09b680427b812cb650adf19848ddbccf", "name": "书房·书桌灯", "area": "书房", "kind": "light", "rank": 7, "x": 440, "y": 745.5, "gangs": null, "controls": [{"entity_id": "light.shu_zhuo_deng", "domain": "light", "label": "书房·书桌灯"}], "state_entity": null, "battery": null}, {"id": "596fce71fe6f7f0f9b0fad4fefdbabf3", "name": "书房·落地灯 T1", "area": "书房", "kind": "light", "rank": 8, "x": 513, "y": 689.6, "gangs": null, "controls": [{"entity_id": "light.liu_guang_yi_cai_luo_di_deng_t1", "domain": "light", "label": "书房·落地灯 T1"}], "state_entity": null, "battery": null}, {"id": "9e5dd2e7d059b604cbbe60fe1286ba17", "name": "书房·魔方控制器", "area": "书房", "kind": "scene", "rank": 9, "x": 513, "y": 747.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.mo_fang_kong_zhi_qi_shu_fang_fan_zhuan_90_dian_chi", "battery": null}, {"id": "e0a3d7647646e8eca04f516f077460a2", "name": "中枢·M300 网关", "area": "书房", "kind": "gateway", "rank": 10, "x": 514.1, "y": 807, "gangs": null, "controls": [], "state_entity": null, "battery": null}, {"id": "9c9cd3b78a8b1319202fb7d39b835e6a", "name": "书房·插座", "area": "书房", "kind": "switch", "rank": null, "x": 537, "y": 777.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_shu_fang", "domain": "switch", "label": "书房·插座"}], "state_entity": null, "battery": null}, {"id": "4924080c0ddd6bda52b7ce427fea47b2", "name": "玄关·人在传感器 FP310", "area": "玄关", "kind": "sensor", "rank": 18, "x": 310, "y": 828.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_ci_chu_you_ren", "battery": null}, {"id": "22eb566921aef0f3f1e0709cb69f64d7", "name": "玄关·门窗传感器 P100", "area": "玄关", "kind": "sensor", "rank": 19, "x": 260, "y": 827.1, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_zhuang_tai_chuan_gan_qi_p100_men", "battery": null}, {"id": "049336a35d4579631fd76b18d86fa881", "name": "浴室·墙面开关 Z1", "area": "浴室", "kind": "wall_switch", "rank": 20, "x": 169.1, "y": 545.9, "gangs": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "label": "排气扇", "domain": "light", "endpoint": 40, "key": "键1"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "label": "浴室灯", "domain": "light", "endpoint": 41, "key": "键2"}], "controls": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "domain": "light", "label": "排气扇"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "domain": "light", "label": "浴室灯"}], "state_entity": null, "battery": null}, {"id": "0b8ff5852ef9dc1f9ec9d4d336e09c6d", "name": "浴室·扫地机 P20", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 146, "y": 480.1, "gangs": null, "controls": [{"entity_id": "switch.wei_sheng_jian_p20_do_not_disturb", "domain": "switch", "label": "浴室·扫地机 P20"}], "state_entity": "binary_sensor.wei_sheng_jian_p20_charging", "battery": "sensor.wei_sheng_jian_p20_battery"}, {"id": "61d8bd52d0a88008ec04bfc7c9377e6d", "name": "浴室·扫地机基站", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 124.1, "y": 479.6, "gangs": null, "controls": [{"entity_id": "switch.p20_dock_child_lock", "domain": "switch", "label": "浴室·扫地机基站"}], "state_entity": "binary_sensor.p20_dock_clean_water_box", "battery": null}, {"id": "d9bf92e660552daafed3219236016c29", "name": "小阳台·主灯", "area": "小阳台", "kind": "light", "rank": 16, "x": 50.1, "y": 550, "gangs": null, "controls": [{"entity_id": "light.xiao_yang_tai_deng", "domain": "light", "label": "小阳台·主灯"}], "state_entity": null, "battery": null}, {"id": "0b534cf739f7e91789d82a5951505014", "name": "小阳台·门窗传感器", "area": "小阳台", "kind": "sensor", "rank": 17, "x": 77.1, "y": 653.4, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_xiao_yang_tai_dian_chi", "battery": null}, {"id": "9fdf8c4a39d44aa3d58626fb37444950", "name": "厨房·主灯", "area": "厨房", "kind": "light", "rank": 11, "x": 120, "y": 759.9, "gangs": null, "controls": [{"entity_id": "light.chu_fang_deng", "domain": "light", "label": "厨房·主灯"}], "state_entity": null, "battery": null}, {"id": "11718e1c7dd841f8f670ead0d41cada9", "name": "厨房·插座（右）", "area": "厨房", "kind": "switch", "rank": null, "x": 172.4, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_you", "domain": "switch", "label": "厨房·插座（右）"}], "state_entity": null, "battery": null}, {"id": "49a3b69908da27b42c121a2d36e57cf6", "name": "厨房·插座（左）", "area": "厨房", "kind": "switch", "rank": null, "x": 198.9, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_zuo", "domain": "switch", "label": "厨房·插座（左）"}], "state_entity": null, "battery": null}], "topology": [{"target": "书房·书桌灯", "via": "玄关·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键1 → 切换书桌灯"}, {"target": "客厅·主灯", "via": "玄关·墙面开关 Z1", "gang": 2, "note": "Studio 自动化：按键2 → 切换客厅灯"}, {"target": "卧室·主灯", "via": "卧室·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键 → 切换卧室灯"}], "scenes": [{"name": "回家", "icon": "🏠", "entity": "script.hui_jia"}, {"name": "离家", "icon": "🚪", "entity": "script.li_jia"}, {"name": "睡觉", "icon": "🌙", "entity": "script.shui_jiao"}, {"name": "观影", "icon": "🎬", "entity": "script.guan_ying"}], "ai": [{"icon": "☀", "entity": "input_text.ai_line_weather"}, {"icon": "🧳", "entity": "input_text.ai_line_trip"}, {"icon": "🌡", "entity": "input_text.ai_line_home"}, {"icon": "⚠", "entity": "input_text.ai_line_cross"}], "aiMeta": "input_text.ai_meta", "aiScript": "script.ai_brief_refresh", "stats": {"rooms": 8, "devices": 32}} 处注入，由 tools/make_card.py 生成
  */
-const DATA = {"version": "0.2.0", "units": "cm", "canvas": [560, 860], "colors": {"light": "#ffcd5c", "cover": "#b08aff", "switch": "#5eead4", "wall_switch": "#5eead4", "media_player": "#ff8a5c", "sensor": "#78d18c", "binary_sensor": "#78d18c", "button": "#ff78aa", "scene": "#ff78aa", "vacuum": "#c8c87a", "gateway": "#8ab4ff", "pet": "#c9a0ff"}, "rooms": [{"name": "卧室", "points": [[379.0, 70.0], [340.0, 70.0], [340.0, 0.0], [160.0, 0.0], [160.0, 70.0], [103.0, 70.0], [103.0, 410.0], [379.0, 410.0]], "bbox": [103.0, 0.0, 379.0, 410.0], "label": [241.0, 182.0], "temp": "sensor.wen_kong_ban_lu_w100_wo_shi_wen_du_wen_du"}, {"name": "大阳台", "points": [[550.0, 190.0], [379.0, 190.0], [379.0, 410.0], [550.0, 410.0]], "bbox": [379.0, 190.0, 550.0, 410.0], "label": [465.0, 276.0], "temp": null}, {"name": "客厅", "points": [[550.0, 410.0], [235.0, 410.0], [235.0, 665.0], [550.0, 665.0]], "bbox": [235.0, 410.0, 550.0, 665.0], "label": [363.0, 538.0], "temp": null}, {"name": "书房", "points": [[550.0, 665.0], [235.0, 665.0], [235.0, 740.0], [380.0, 740.0], [380.0, 850.0], [550.0, 850.0]], "bbox": [235.0, 665.0, 550.0, 850.0], "label": [465.0, 751.0], "temp": null}, {"name": "玄关", "points": [[380.0, 740.0], [235.0, 740.0], [235.0, 850.0], [380.0, 850.0]], "bbox": [235.0, 740.0, 380.0, 850.0], "label": [289.0, 794.0], "temp": "sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_wen_du"}, {"name": "浴室", "points": [[235.0, 410.0], [103.0, 410.0], [103.0, 665.0], [235.0, 665.0]], "bbox": [103.0, 410.0, 235.0, 665.0], "label": [169.0, 476.0], "temp": null}, {"name": "小阳台", "points": [[103.0, 420.0], [0.0, 420.0], [0.0, 665.0], [103.0, 665.0]], "bbox": [0.0, 420.0, 103.0, 665.0], "label": [52.0, 472.0], "temp": null}, {"name": "厨房", "points": [[235.0, 665.0], [0.0, 665.0], [0.0, 850.0], [235.0, 850.0]], "bbox": [0.0, 665.0, 235.0, 850.0], "label": [92.0, 757.0], "temp": null}], "walls": [[340.0, 0.0, 160.0, 0.0], [340.0, 0.0, 340.0, 70.0], [160.0, 0.0, 160.0, 70.0], [379.0, 70.0, 340.0, 70.0], [160.0, 70.0, 103.0, 70.0], [379.0, 70.0, 379.0, 410.0], [103.0, 70.0, 103.0, 410.0], [550.0, 190.0, 395.0, 190.0], [550.0, 190.0, 550.0, 850.0], [550.0, 850.0, 0.0, 850.0], [0.0, 420.0, 0.0, 850.0], [103.0, 420.0, 0.0, 420.0], [550.0, 410.0, 379.0, 410.0], [379.0, 410.0, 103.0, 410.0], [235.0, 410.0, 235.0, 850.0], [235.0, 665.0, 0.0, 665.0], [103.0, 410.0, 103.0, 665.0], [380.0, 740.0, 235.0, 740.0], [380.0, 740.0, 380.0, 850.0], [379.0, 190.0, 395.0, 190.0]], "devices": [{"id": "ff7fade407d57e89edb581497f044a06", "name": "卧室·主灯", "area": "卧室", "kind": "light", "rank": 1, "x": 243.1, "y": 226.6, "gangs": null, "controls": [{"entity_id": "light.wo_shi_deng", "domain": "light", "label": "卧室·主灯"}], "state_entity": null}, {"id": "4007e516fb9d485361b04dd5c498edd6", "name": "卧室·窗帘", "area": "卧室", "kind": "cover", "rank": 2, "x": 249.4, "y": 16.7, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_wo_shi", "domain": "cover", "label": "卧室·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_wo_shi_pei_zhi_zhuang_tai"}, {"id": "ad3ec979798114adae08d0d0c7577cbd", "name": "卧室·温湿度 W100", "area": "卧室", "kind": "sensor", "rank": 3, "x": 111.4, "y": 325.5, "gangs": null, "controls": [], "state_entity": "sensor.wen_kong_ban_lu_w100_wo_shi_shi_du_shi_du"}, {"id": "8b9820181959ca31db32535753b2fe70", "name": "卧室·插座（床前）", "area": "卧室", "kind": "switch", "rank": null, "x": 363.5, "y": 146.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_qian", "domain": "switch", "label": "卧室·插座（床前）"}], "state_entity": null}, {"id": "edd0ea37114bc19c4d355cb10fe377a1", "name": "卧室·插座（床右）", "area": "卧室", "kind": "switch", "rank": null, "x": 116.2, "y": 116.3, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_you", "domain": "switch", "label": "卧室·插座（床右）"}], "state_entity": null}, {"id": "f1ad918b7483a2d56fb21f02bdc7b735", "name": "卧室·插座（床左）", "area": "卧室", "kind": "switch", "rank": null, "x": 109.9, "y": 290.6, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_zuo", "domain": "switch", "label": "卧室·插座（床左）"}], "state_entity": null}, {"id": "97fe1bcbd4d4d92c8cbd1bb64f6a3711", "name": "大阳台·主灯", "area": "大阳台", "kind": "light", "rank": 12, "x": 464.4, "y": 304.7, "gangs": null, "controls": [{"entity_id": "light.da_yang_tai_deng", "domain": "light", "label": "大阳台·主灯"}], "state_entity": null}, {"id": "a4dc161a95e44eec9ad78b4d739d8e78", "name": "大阳台·窗帘", "area": "大阳台", "kind": "cover", "rank": 13, "x": 464.1, "y": 406.2, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_da_yang_tai", "domain": "cover", "label": "大阳台·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_da_yang_tai_pei_zhi_zhuang_tai"}, {"id": "423c971c749041aa8c48fbee7999b842", "name": "大阳台·人体传感器", "area": "大阳台", "kind": "sensor", "rank": 14, "x": 512.4, "y": 368.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ren_ti_chuan_gan_qi_e1_da_yang_tai_ren_ci_chu_you_ren"}, {"id": "adc5a8df8794715f16132d2a31fb379b", "name": "大阳台·门窗传感器", "area": "大阳台", "kind": "sensor", "rank": 15, "x": 417.5, "y": 368.8, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_da_yang_tai_dian_chi"}, {"id": "9f39c0684b08c541f5fa29a7891265c9", "name": "大阳台·猫厕所 MAX2", "area": "大阳台", "kind": "binary_sensor", "rank": null, "x": 500.8, "y": 237.5, "gangs": null, "controls": [{"entity_id": "switch.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_auto_clean", "domain": "switch", "label": "大阳台·猫厕所 MAX2"}], "state_entity": "binary_sensor.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_frequent_use_detection"}, {"id": "66fc6938448c0ad8e4b9ccfec87d2788", "name": "客厅·主灯", "area": "客厅", "kind": "light", "rank": 4, "x": 394.9, "y": 539.8, "gangs": null, "controls": [{"entity_id": "light.ke_ting_deng", "domain": "light", "label": "客厅·主灯"}], "state_entity": null}, {"id": "fb0320b98acb38c57b81cccf3af3d47b", "name": "客厅·HomePod mini", "area": "客厅", "kind": "media", "rank": 5, "x": 538.6, "y": 461.2, "gangs": null, "controls": [{"entity_id": "media_player.qi_ju_shi_qi_ju_shi", "domain": "media_player", "label": "客厅·HomePod mini"}], "state_entity": null}, {"id": "fd9f10aef94a2d3b9246e93a2a8dcb8d", "name": "客厅·喂食器 SOLO", "area": "客厅", "kind": "pet", "rank": 6, "x": 249.4, "y": 504.3, "gangs": null, "controls": [{"entity_id": "switch.zhi_neng_wei_shi_qi_solo_child_lock", "domain": "switch", "label": "客厅·喂食器 SOLO"}], "state_entity": "binary_sensor.zhi_neng_wei_shi_qi_solo_feeding"}, {"id": "698d691fe171e97a443e58b50a0565d3", "name": "客厅·插座（右）", "area": "客厅", "kind": "switch", "rank": null, "x": 250.1, "y": 541.1, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_you", "domain": "switch", "label": "客厅·插座（右）"}], "state_entity": null}, {"id": "375d8da12c25634cdd1a2da25b93b2c4", "name": "客厅·插座（左）", "area": "客厅", "kind": "switch", "rank": null, "x": 249.5, "y": 569.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_zuo", "domain": "switch", "label": "客厅·插座（左）"}], "state_entity": null}, {"id": "5894c96471507bfde2782d4cfe9163ce", "name": "客厅·插座（沙发背）", "area": "客厅", "kind": "switch", "rank": null, "x": 537.6, "y": 505.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_sha_fa_bei", "domain": "switch", "label": "客厅·插座（沙发背）"}], "state_entity": null}, {"id": "09b680427b812cb650adf19848ddbccf", "name": "书房·书桌灯", "area": "书房", "kind": "light", "rank": 7, "x": 440, "y": 745.5, "gangs": null, "controls": [{"entity_id": "light.shu_zhuo_deng", "domain": "light", "label": "书房·书桌灯"}], "state_entity": null}, {"id": "596fce71fe6f7f0f9b0fad4fefdbabf3", "name": "书房·落地灯 T1", "area": "书房", "kind": "light", "rank": 8, "x": 513, "y": 689.6, "gangs": null, "controls": [{"entity_id": "light.liu_guang_yi_cai_luo_di_deng_t1", "domain": "light", "label": "书房·落地灯 T1"}], "state_entity": null}, {"id": "9e5dd2e7d059b604cbbe60fe1286ba17", "name": "书房·魔方控制器", "area": "书房", "kind": "scene", "rank": 9, "x": 513, "y": 747.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.mo_fang_kong_zhi_qi_shu_fang_fan_zhuan_90_dian_chi"}, {"id": "e0a3d7647646e8eca04f516f077460a2", "name": "中枢·M300 网关", "area": "书房", "kind": "gateway", "rank": 10, "x": 514.1, "y": 807, "gangs": null, "controls": [], "state_entity": null}, {"id": "9c9cd3b78a8b1319202fb7d39b835e6a", "name": "书房·插座", "area": "书房", "kind": "switch", "rank": null, "x": 537, "y": 777.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_shu_fang", "domain": "switch", "label": "书房·插座"}], "state_entity": null}, {"id": "4924080c0ddd6bda52b7ce427fea47b2", "name": "玄关·人在传感器 FP310", "area": "玄关", "kind": "sensor", "rank": 18, "x": 310, "y": 828.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_ci_chu_you_ren"}, {"id": "22eb566921aef0f3f1e0709cb69f64d7", "name": "玄关·门窗传感器 P100", "area": "玄关", "kind": "sensor", "rank": 19, "x": 260, "y": 827.1, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_zhuang_tai_chuan_gan_qi_p100_men"}, {"id": "049336a35d4579631fd76b18d86fa881", "name": "浴室·墙面开关 Z1", "area": "浴室", "kind": "wall_switch", "rank": 20, "x": 169.1, "y": 545.9, "gangs": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "label": "排气扇", "domain": "light", "endpoint": 40, "key": "键1"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "label": "浴室灯", "domain": "light", "endpoint": 41, "key": "键2"}], "controls": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "domain": "light", "label": "排气扇"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "domain": "light", "label": "浴室灯"}], "state_entity": null}, {"id": "0b8ff5852ef9dc1f9ec9d4d336e09c6d", "name": "浴室·扫地机 P20", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 146, "y": 480.1, "gangs": null, "controls": [{"entity_id": "switch.wei_sheng_jian_p20_do_not_disturb", "domain": "switch", "label": "浴室·扫地机 P20"}], "state_entity": "binary_sensor.wei_sheng_jian_p20_charging"}, {"id": "61d8bd52d0a88008ec04bfc7c9377e6d", "name": "浴室·扫地机基站", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 124.1, "y": 479.6, "gangs": null, "controls": [{"entity_id": "switch.p20_dock_child_lock", "domain": "switch", "label": "浴室·扫地机基站"}], "state_entity": "binary_sensor.p20_dock_clean_water_box"}, {"id": "d9bf92e660552daafed3219236016c29", "name": "小阳台·主灯", "area": "小阳台", "kind": "light", "rank": 16, "x": 50.1, "y": 550, "gangs": null, "controls": [{"entity_id": "light.xiao_yang_tai_deng", "domain": "light", "label": "小阳台·主灯"}], "state_entity": null}, {"id": "0b534cf739f7e91789d82a5951505014", "name": "小阳台·门窗传感器", "area": "小阳台", "kind": "sensor", "rank": 17, "x": 77.1, "y": 653.4, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_xiao_yang_tai_dian_chi"}, {"id": "9fdf8c4a39d44aa3d58626fb37444950", "name": "厨房·主灯", "area": "厨房", "kind": "light", "rank": 11, "x": 120, "y": 759.9, "gangs": null, "controls": [{"entity_id": "light.chu_fang_deng", "domain": "light", "label": "厨房·主灯"}], "state_entity": null}, {"id": "11718e1c7dd841f8f670ead0d41cada9", "name": "厨房·插座（右）", "area": "厨房", "kind": "switch", "rank": null, "x": 172.4, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_you", "domain": "switch", "label": "厨房·插座（右）"}], "state_entity": null}, {"id": "49a3b69908da27b42c121a2d36e57cf6", "name": "厨房·插座（左）", "area": "厨房", "kind": "switch", "rank": null, "x": 198.9, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_zuo", "domain": "switch", "label": "厨房·插座（左）"}], "state_entity": null}], "topology": [{"target": "书房·书桌灯", "via": "玄关·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键1 → 切换书桌灯"}, {"target": "客厅·主灯", "via": "玄关·墙面开关 Z1", "gang": 2, "note": "Studio 自动化：按键2 → 切换客厅灯"}, {"target": "卧室·主灯", "via": "卧室·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键 → 切换卧室灯"}], "stats": {"rooms": 8, "devices": 32}};
+const DATA = {"version": "0.3.0", "units": "cm", "canvas": [560, 860], "colors": {"light": "#ffcd5c", "cover": "#b08aff", "switch": "#5eead4", "wall_switch": "#5eead4", "media_player": "#ff8a5c", "sensor": "#78d18c", "binary_sensor": "#78d18c", "button": "#ff78aa", "scene": "#ff78aa", "vacuum": "#c8c87a", "gateway": "#8ab4ff", "pet": "#c9a0ff"}, "rooms": [{"name": "卧室", "points": [[379.0, 70.0], [340.0, 70.0], [340.0, 0.0], [160.0, 0.0], [160.0, 70.0], [103.0, 70.0], [103.0, 410.0], [379.0, 410.0]], "bbox": [103.0, 0.0, 379.0, 410.0], "label": [241.0, 182.0], "temp": "sensor.wen_kong_ban_lu_w100_wo_shi_wen_du_wen_du"}, {"name": "大阳台", "points": [[550.0, 190.0], [379.0, 190.0], [379.0, 410.0], [550.0, 410.0]], "bbox": [379.0, 190.0, 550.0, 410.0], "label": [465.0, 276.0], "temp": null}, {"name": "客厅", "points": [[550.0, 410.0], [235.0, 410.0], [235.0, 665.0], [550.0, 665.0]], "bbox": [235.0, 410.0, 550.0, 665.0], "label": [363.0, 538.0], "temp": null}, {"name": "书房", "points": [[550.0, 665.0], [235.0, 665.0], [235.0, 740.0], [380.0, 740.0], [380.0, 850.0], [550.0, 850.0]], "bbox": [235.0, 665.0, 550.0, 850.0], "label": [465.0, 751.0], "temp": null}, {"name": "玄关", "points": [[380.0, 740.0], [235.0, 740.0], [235.0, 850.0], [380.0, 850.0]], "bbox": [235.0, 740.0, 380.0, 850.0], "label": [289.0, 794.0], "temp": "sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_wen_du"}, {"name": "浴室", "points": [[235.0, 410.0], [103.0, 410.0], [103.0, 665.0], [235.0, 665.0]], "bbox": [103.0, 410.0, 235.0, 665.0], "label": [169.0, 476.0], "temp": null}, {"name": "小阳台", "points": [[103.0, 420.0], [0.0, 420.0], [0.0, 665.0], [103.0, 665.0]], "bbox": [0.0, 420.0, 103.0, 665.0], "label": [52.0, 472.0], "temp": null}, {"name": "厨房", "points": [[235.0, 665.0], [0.0, 665.0], [0.0, 850.0], [235.0, 850.0]], "bbox": [0.0, 665.0, 235.0, 850.0], "label": [92.0, 757.0], "temp": null}], "walls": [[340.0, 0.0, 160.0, 0.0], [340.0, 0.0, 340.0, 70.0], [160.0, 0.0, 160.0, 70.0], [379.0, 70.0, 340.0, 70.0], [160.0, 70.0, 103.0, 70.0], [379.0, 70.0, 379.0, 410.0], [103.0, 70.0, 103.0, 410.0], [550.0, 190.0, 395.0, 190.0], [550.0, 190.0, 550.0, 850.0], [550.0, 850.0, 0.0, 850.0], [0.0, 420.0, 0.0, 850.0], [103.0, 420.0, 0.0, 420.0], [550.0, 410.0, 379.0, 410.0], [379.0, 410.0, 103.0, 410.0], [235.0, 410.0, 235.0, 850.0], [235.0, 665.0, 0.0, 665.0], [103.0, 410.0, 103.0, 665.0], [380.0, 740.0, 235.0, 740.0], [380.0, 740.0, 380.0, 850.0], [379.0, 190.0, 395.0, 190.0]], "devices": [{"id": "ff7fade407d57e89edb581497f044a06", "name": "卧室·主灯", "area": "卧室", "kind": "light", "rank": 1, "x": 243.1, "y": 226.6, "gangs": null, "controls": [{"entity_id": "light.wo_shi_deng", "domain": "light", "label": "卧室·主灯"}], "state_entity": null, "battery": null}, {"id": "4007e516fb9d485361b04dd5c498edd6", "name": "卧室·窗帘", "area": "卧室", "kind": "cover", "rank": 2, "x": 249.4, "y": 16.7, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_wo_shi", "domain": "cover", "label": "卧室·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_wo_shi_pei_zhi_zhuang_tai", "battery": null}, {"id": "ad3ec979798114adae08d0d0c7577cbd", "name": "卧室·温湿度 W100", "area": "卧室", "kind": "sensor", "rank": 3, "x": 111.4, "y": 325.5, "gangs": null, "controls": [], "state_entity": "sensor.wen_kong_ban_lu_w100_wo_shi_shi_du_shi_du", "battery": null}, {"id": "8b9820181959ca31db32535753b2fe70", "name": "卧室·插座（床前）", "area": "卧室", "kind": "switch", "rank": null, "x": 363.5, "y": 146.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_qian", "domain": "switch", "label": "卧室·插座（床前）"}], "state_entity": null, "battery": null}, {"id": "edd0ea37114bc19c4d355cb10fe377a1", "name": "卧室·插座（床右）", "area": "卧室", "kind": "switch", "rank": null, "x": 116.2, "y": 116.3, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_you", "domain": "switch", "label": "卧室·插座（床右）"}], "state_entity": null, "battery": null}, {"id": "f1ad918b7483a2d56fb21f02bdc7b735", "name": "卧室·插座（床左）", "area": "卧室", "kind": "switch", "rank": null, "x": 109.9, "y": 290.6, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chuang_zuo", "domain": "switch", "label": "卧室·插座（床左）"}], "state_entity": null, "battery": null}, {"id": "97fe1bcbd4d4d92c8cbd1bb64f6a3711", "name": "大阳台·主灯", "area": "大阳台", "kind": "light", "rank": 12, "x": 464.4, "y": 304.7, "gangs": null, "controls": [{"entity_id": "light.da_yang_tai_deng", "domain": "light", "label": "大阳台·主灯"}], "state_entity": null, "battery": null}, {"id": "a4dc161a95e44eec9ad78b4d739d8e78", "name": "大阳台·窗帘", "area": "大阳台", "kind": "cover", "rank": 13, "x": 464.1, "y": 406.2, "gangs": null, "controls": [{"entity_id": "cover.chuang_lian_ban_lu_da_yang_tai", "domain": "cover", "label": "大阳台·窗帘"}], "state_entity": "binary_sensor.chuang_lian_ban_lu_da_yang_tai_pei_zhi_zhuang_tai", "battery": null}, {"id": "423c971c749041aa8c48fbee7999b842", "name": "大阳台·人体传感器", "area": "大阳台", "kind": "sensor", "rank": 14, "x": 512.4, "y": 368.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ren_ti_chuan_gan_qi_e1_da_yang_tai_ren_ci_chu_you_ren", "battery": null}, {"id": "adc5a8df8794715f16132d2a31fb379b", "name": "大阳台·门窗传感器", "area": "大阳台", "kind": "sensor", "rank": 15, "x": 417.5, "y": 368.8, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_da_yang_tai_dian_chi", "battery": null}, {"id": "9f39c0684b08c541f5fa29a7891265c9", "name": "大阳台·猫厕所 MAX2", "area": "大阳台", "kind": "binary_sensor", "rank": null, "x": 500.8, "y": 237.5, "gangs": null, "controls": [{"entity_id": "switch.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_auto_clean", "domain": "switch", "label": "大阳台·猫厕所 MAX2"}], "state_entity": "binary_sensor.xiao_pei_zhi_neng_quan_zi_dong_mao_ce_suo_max2_frequent_use_detection", "battery": null}, {"id": "66fc6938448c0ad8e4b9ccfec87d2788", "name": "客厅·主灯", "area": "客厅", "kind": "light", "rank": 4, "x": 394.9, "y": 539.8, "gangs": null, "controls": [{"entity_id": "light.ke_ting_deng", "domain": "light", "label": "客厅·主灯"}], "state_entity": null, "battery": null}, {"id": "fb0320b98acb38c57b81cccf3af3d47b", "name": "客厅·HomePod mini", "area": "客厅", "kind": "media", "rank": 5, "x": 538.6, "y": 461.2, "gangs": null, "controls": [{"entity_id": "media_player.qi_ju_shi_qi_ju_shi", "domain": "media_player", "label": "客厅·HomePod mini"}], "state_entity": null, "battery": null}, {"id": "fd9f10aef94a2d3b9246e93a2a8dcb8d", "name": "客厅·喂食器 SOLO", "area": "客厅", "kind": "pet", "rank": 6, "x": 249.4, "y": 504.3, "gangs": null, "controls": [{"entity_id": "switch.zhi_neng_wei_shi_qi_solo_child_lock", "domain": "switch", "label": "客厅·喂食器 SOLO"}], "state_entity": "binary_sensor.zhi_neng_wei_shi_qi_solo_feeding", "battery": "sensor.zhi_neng_wei_shi_qi_solo_battery_level"}, {"id": "698d691fe171e97a443e58b50a0565d3", "name": "客厅·插座（右）", "area": "客厅", "kind": "switch", "rank": null, "x": 250.1, "y": 541.1, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_you", "domain": "switch", "label": "客厅·插座（右）"}], "state_entity": null, "battery": null}, {"id": "375d8da12c25634cdd1a2da25b93b2c4", "name": "客厅·插座（左）", "area": "客厅", "kind": "switch", "rank": null, "x": 249.5, "y": 569.8, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_ke_ting_zuo", "domain": "switch", "label": "客厅·插座（左）"}], "state_entity": null, "battery": null}, {"id": "5894c96471507bfde2782d4cfe9163ce", "name": "客厅·插座（沙发背）", "area": "客厅", "kind": "switch", "rank": null, "x": 537.6, "y": 505.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_sha_fa_bei", "domain": "switch", "label": "客厅·插座（沙发背）"}], "state_entity": null, "battery": null}, {"id": "09b680427b812cb650adf19848ddbccf", "name": "书房·书桌灯", "area": "书房", "kind": "light", "rank": 7, "x": 440, "y": 745.5, "gangs": null, "controls": [{"entity_id": "light.shu_zhuo_deng", "domain": "light", "label": "书房·书桌灯"}], "state_entity": null, "battery": null}, {"id": "596fce71fe6f7f0f9b0fad4fefdbabf3", "name": "书房·落地灯 T1", "area": "书房", "kind": "light", "rank": 8, "x": 513, "y": 689.6, "gangs": null, "controls": [{"entity_id": "light.liu_guang_yi_cai_luo_di_deng_t1", "domain": "light", "label": "书房·落地灯 T1"}], "state_entity": null, "battery": null}, {"id": "9e5dd2e7d059b604cbbe60fe1286ba17", "name": "书房·魔方控制器", "area": "书房", "kind": "scene", "rank": 9, "x": 513, "y": 747.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.mo_fang_kong_zhi_qi_shu_fang_fan_zhuan_90_dian_chi", "battery": null}, {"id": "e0a3d7647646e8eca04f516f077460a2", "name": "中枢·M300 网关", "area": "书房", "kind": "gateway", "rank": 10, "x": 514.1, "y": 807, "gangs": null, "controls": [], "state_entity": null, "battery": null}, {"id": "9c9cd3b78a8b1319202fb7d39b835e6a", "name": "书房·插座", "area": "书房", "kind": "switch", "rank": null, "x": 537, "y": 777.4, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_shu_fang", "domain": "switch", "label": "书房·插座"}], "state_entity": null, "battery": null}, {"id": "4924080c0ddd6bda52b7ce427fea47b2", "name": "玄关·人在传感器 FP310", "area": "玄关", "kind": "sensor", "rank": 18, "x": 310, "y": 828.2, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_ren_zai_chuan_gan_qi_fp310_ci_chu_you_ren", "battery": null}, {"id": "22eb566921aef0f3f1e0709cb69f64d7", "name": "玄关·门窗传感器 P100", "area": "玄关", "kind": "sensor", "rank": 19, "x": 260, "y": 827.1, "gangs": null, "controls": [], "state_entity": "binary_sensor.ai_duo_wei_zhuang_tai_chuan_gan_qi_p100_men", "battery": null}, {"id": "049336a35d4579631fd76b18d86fa881", "name": "浴室·墙面开关 Z1", "area": "浴室", "kind": "wall_switch", "rank": 20, "x": 169.1, "y": 545.9, "gangs": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "label": "排气扇", "domain": "light", "endpoint": 40, "key": "键1"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "label": "浴室灯", "domain": "light", "endpoint": 41, "key": "键2"}], "controls": [{"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu", "domain": "light", "label": "排气扇"}, {"entity_id": "light.qia_nong_zhi_neng_qiang_bi_kai_guan_z1_yu_2", "domain": "light", "label": "浴室灯"}], "state_entity": null, "battery": null}, {"id": "0b8ff5852ef9dc1f9ec9d4d336e09c6d", "name": "浴室·扫地机 P20", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 146, "y": 480.1, "gangs": null, "controls": [{"entity_id": "switch.wei_sheng_jian_p20_do_not_disturb", "domain": "switch", "label": "浴室·扫地机 P20"}], "state_entity": "binary_sensor.wei_sheng_jian_p20_charging", "battery": "sensor.wei_sheng_jian_p20_battery"}, {"id": "61d8bd52d0a88008ec04bfc7c9377e6d", "name": "浴室·扫地机基站", "area": "浴室", "kind": "binary_sensor", "rank": null, "x": 124.1, "y": 479.6, "gangs": null, "controls": [{"entity_id": "switch.p20_dock_child_lock", "domain": "switch", "label": "浴室·扫地机基站"}], "state_entity": "binary_sensor.p20_dock_clean_water_box", "battery": null}, {"id": "d9bf92e660552daafed3219236016c29", "name": "小阳台·主灯", "area": "小阳台", "kind": "light", "rank": 16, "x": 50.1, "y": 550, "gangs": null, "controls": [{"entity_id": "light.xiao_yang_tai_deng", "domain": "light", "label": "小阳台·主灯"}], "state_entity": null, "battery": null}, {"id": "0b534cf739f7e91789d82a5951505014", "name": "小阳台·门窗传感器", "area": "小阳台", "kind": "sensor", "rank": 17, "x": 77.1, "y": 653.4, "gangs": null, "controls": [], "state_entity": "binary_sensor.men_chuang_chuan_gan_qi_e1_xiao_yang_tai_dian_chi", "battery": null}, {"id": "9fdf8c4a39d44aa3d58626fb37444950", "name": "厨房·主灯", "area": "厨房", "kind": "light", "rank": 11, "x": 120, "y": 759.9, "gangs": null, "controls": [{"entity_id": "light.chu_fang_deng", "domain": "light", "label": "厨房·主灯"}], "state_entity": null, "battery": null}, {"id": "11718e1c7dd841f8f670ead0d41cada9", "name": "厨房·插座（右）", "area": "厨房", "kind": "switch", "rank": null, "x": 172.4, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_you", "domain": "switch", "label": "厨房·插座（右）"}], "state_entity": null, "battery": null}, {"id": "49a3b69908da27b42c121a2d36e57cf6", "name": "厨房·插座（左）", "area": "厨房", "kind": "switch", "rank": null, "x": 198.9, "y": 825.2, "gangs": null, "controls": [{"entity_id": "switch.qiang_bi_cha_zuo_chu_fang_zuo", "domain": "switch", "label": "厨房·插座（左）"}], "state_entity": null, "battery": null}], "topology": [{"target": "书房·书桌灯", "via": "玄关·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键1 → 切换书桌灯"}, {"target": "客厅·主灯", "via": "玄关·墙面开关 Z1", "gang": 2, "note": "Studio 自动化：按键2 → 切换客厅灯"}, {"target": "卧室·主灯", "via": "卧室·墙面开关 Z1", "gang": 1, "note": "Studio 自动化：按键 → 切换卧室灯"}], "scenes": [{"name": "回家", "icon": "🏠", "entity": "script.hui_jia"}, {"name": "离家", "icon": "🚪", "entity": "script.li_jia"}, {"name": "睡觉", "icon": "🌙", "entity": "script.shui_jiao"}, {"name": "观影", "icon": "🎬", "entity": "script.guan_ying"}], "ai": [{"icon": "☀", "entity": "input_text.ai_line_weather"}, {"icon": "🧳", "entity": "input_text.ai_line_trip"}, {"icon": "🌡", "entity": "input_text.ai_line_home"}, {"icon": "⚠", "entity": "input_text.ai_line_cross"}], "aiMeta": "input_text.ai_meta", "aiScript": "script.ai_brief_refresh", "stats": {"rooms": 8, "devices": 32}};
 
 const NS = "http://www.w3.org/2000/svg";
 
-const BASE_R = 11;        // 图钉基准半径（user units）
-const BASE_R_MULTI = 15;  // 多键基准半径
-const TARGET_PIN_R = 9;   // 目标屏幕半径（px）≈ 18px 直径
-const BADGE_H = 36;       // 徽标基准高度（user units，两行）
-const TARGET_BADGE_H = 48; // 徽标目标屏幕高度（px），宽屏下不低于 44px
+const BASE_R = 11;
+const BASE_R_MULTI = 15;
+const TARGET_PIN_R = 9;
+const BADGE_H = 36;
+const TARGET_BADGE_H = 48;
+
+const WX = {
+  "sunny":"晴","clear-night":"晴","partlycloudy":"局部多云","cloudy":"多云",
+  "rainy":"小雨","pouring":"大雨","snowy":"雪","snowy-rainy":"雨夹雪",
+  "fog":"雾","hail":"冰雹","lightning":"雷阵雨","windy":"大风",
+  "windy-variant":"大风","exceptional":"异常","clear-day":"晴"
+};
 
 const CSS = `
 :host{display:block}
-ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radius:16px}
-.wrap{position:relative;padding:10px;overflow:hidden}
-/* 宽度自适应、高度封顶：宽屏左右留白，手机占满，不产生滚动条 */
-svg{width:100%;height:auto;display:block;touch-action:manipulation;
-    max-height:min(76vh,900px);
-    font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+ha-card{overflow:hidden;background:#0b1119;border:1px solid #1b2530;border-radius:16px;
+        color:#e8f2fb;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.shell{display:grid;grid-template-columns:288px minmax(0,1fr) 320px;
+       height:min(78vh,840px);min-height:420px}
+.left{display:flex;flex-direction:column;gap:12px;padding:16px 14px;min-height:0;
+      position:relative;border-right:1px solid #16212c;
+      background:linear-gradient(180deg,#0c141d,#0a1119)}
+.right{display:flex;flex-direction:column;gap:12px;padding:14px 12px;min-height:0;
+      border-left:1px solid #16212c;background:linear-gradient(180deg,#0c141d,#0a1119)}
+.center{position:relative;min-width:0;min-height:0;overflow:hidden}
+.center svg{width:100%;height:100%;display:block;touch-action:manipulation;max-height:none}
+
+/* ---------- 左栏 ---------- */
+.clock .t{font-size:36px;font-weight:700;letter-spacing:1.5px;line-height:1.05;color:#e8f2fb;
+          font-variant-numeric:tabular-nums}
+.clock .d{font-size:12px;color:#7e93a8;margin-top:3px}
+.clock .w{font-size:12px;color:#9fd2ef;margin-top:7px;display:flex;align-items:center;gap:6px}
+.ai{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:9px;
+    padding-right:2px}
+.ai-row{display:flex;gap:8px;font-size:12px;line-height:1.5;color:#b9cddd}
+.ai-row .ic{flex:0 0 16px;text-align:center;opacity:.85}
+.ai-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;
+         font-size:10px;color:#5f7386;min-height:18px}
+.ai-refresh{width:22px;height:22px;border-radius:50%;border:1px solid #24384a;background:#13202b;
+            color:#9fd2ef;font-size:12px;line-height:1;cursor:pointer;padding:0;
+            display:flex;align-items:center;justify-content:center;font-family:inherit}
+.ai-refresh:hover{border-color:#1d6f96;background:#16232f}
+.alerts{margin-top:auto}
+.alert-cap{display:none;align-items:center;gap:7px;padding:8px 12px;border-radius:11px;
+           background:#241a10;border:1px solid #5a4322;color:#f0c37a;font-size:12px;cursor:pointer}
+.alert-cap.on{display:flex}
+.alert-cap:hover{border-color:#a2752f}
+/* 展开态要盖住整个左栏：定位锚点必须是 .left（.alerts 只有胶囊那么高，踩过） */
+.alert-list{display:none;position:absolute;left:14px;right:14px;bottom:14px;z-index:12;
+            max-height:62%;overflow:auto;background:#14100a;border:1px solid #5a4322;
+            border-radius:12px;padding:10px;box-shadow:0 10px 30px #000b}
+.alert-list.on{display:block}
+.alert-list h4{margin:0 0 8px;font-size:12px;color:#f0c37a;font-weight:700}
+.alert-list .it{font-size:11px;color:#d7c4a6;padding:4px 0;border-bottom:1px solid #2a2318;
+                display:flex;justify-content:space-between;gap:8px}
+.alert-list .it:last-child{border-bottom:none}
+
+/* ---------- 中栏 ---------- */
 .room{fill:#101720;stroke:#1b2530;stroke-width:.7;transition:opacity .3s;cursor:pointer}
 .room:hover{fill:#131c26}
 .wall{stroke:#33475c;stroke-width:9;stroke-linecap:square;pointer-events:none}
-.rname{fill:#7e93a8;font-size:11px;font-weight:700;pointer-events:none}
 
 .pin{cursor:pointer}
+.pin.no{cursor:default}
 .pin .ring{fill:none;stroke:#2a3a4a;stroke-width:1.5;vector-effect:non-scaling-stroke}
 .pin .body{stroke:#0a0f15;stroke-width:1.4;vector-effect:non-scaling-stroke}
+/* 可调光灯的旋钮环：单独成类，不吃 .body 的描边规则（踩过：被覆盖成细线） */
+.pin .dial{fill:none}
+.pin .tick{stroke:#0a0f15;stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-linecap:round}
 .pin .halo{fill:none;stroke:none;opacity:0;transition:opacity .2s}
 .pin .slash{stroke:#8aa0b4;stroke-width:2;vector-effect:non-scaling-stroke;display:none}
 .pin text{font-size:12px;font-weight:700;fill:#0a0f15;text-anchor:middle;
           dominant-baseline:central;pointer-events:none}
 
-/* 状态：亮 = 高饱和 + 外发光；灭 = 低饱和；传感器 = 中性；不可用 = 灰环 + 斜线 */
 .pin.on .halo{opacity:.30}
 .pin.on .ring{stroke:#33506a}
 .pin.off .body{opacity:.30}
+.pin.off .dial{opacity:.32}
+.pin.off .tick{opacity:.30}
 .pin.off text{opacity:.55}
 .pin.sensor .body{opacity:.85}
 .pin.sensor .ring{stroke:#24384a}
 .pin.unavail .body{fill:#2f3a45;opacity:.55}
+.pin.unavail .dial{stroke:#2f3a45;opacity:.55}
 .pin.unavail .ring{stroke:#5a6b7a;stroke-dasharray:3 3}
 .pin.unavail .slash{display:block}
 .pin.unavail text{opacity:.4}
@@ -79,6 +128,45 @@ svg{width:100%;height:auto;display:block;touch-action:manipulation;
 .menu button:hover{background:#1d3242;border-color:#1d6f96}
 .menu button .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
                   margin-right:7px;vertical-align:middle}
+
+/* ---------- 右栏 ---------- */
+.scenes{display:flex;flex-direction:column;gap:8px}
+.scene{display:flex;align-items:center;gap:10px;height:56px;padding:0 14px;border-radius:12px;
+       background:#13202b;border:1px solid #22333f;color:#dbe8f4;font-size:14px;font-weight:600;
+       cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.scene .ic{font-size:18px;line-height:1}
+.scene:hover{border-color:#1d6f96;background:#16283a}
+.scene.dis{opacity:.34;cursor:not-allowed}
+.sec-title{font-size:11px;color:#7e93a8;margin:2px 0 0;letter-spacing:.3px}
+.devlist{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:6px;
+         padding-right:2px}
+.empty{font-size:11px;color:#5f7386;padding:10px 2px}
+.dev{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;
+     background:#0f1a24;border:1px solid #1a2836}
+.dev .nm{flex:1;min-width:0;font-size:12px;white-space:nowrap;overflow:hidden;
+         text-overflow:ellipsis;color:#cfdeeb}
+.dev .st{font-size:11px;color:#8fa6ba;font-variant-numeric:tabular-nums}
+.dev button{border:1px solid #24384a;background:#16232f;color:#cfe3f2;border-radius:7px;
+            padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+.dev button:hover{border-color:#1d6f96;background:#1d3242}
+
+/* ---------- 窄屏 ---------- */
+.topbar{display:none;position:absolute;left:12px;top:10px;z-index:8;gap:9px;align-items:baseline;
+        font-size:12px;color:#9fb4c8;pointer-events:none}
+.topbar b{font-size:17px;color:#e8f2fb;font-variant-numeric:tabular-nums}
+@media (min-width:1000px) and (max-width:1279px){
+  .shell{grid-template-columns:236px minmax(0,1fr) 272px}
+  .clock .t{font-size:30px}
+  .scene{height:48px;font-size:13px;padding:0 12px}
+  .left{padding:14px 11px}
+  .right{padding:12px 10px}
+}
+@media (max-width:999px){
+  .shell{grid-template-columns:minmax(0,1fr);height:min(66vh,560px)}
+  .left,.right{display:none}
+  .topbar{display:flex}
+  .hud{top:auto;bottom:10px}
+}
 `;
 
 class SpaceMapCard extends HTMLElement {
@@ -95,6 +183,7 @@ class SpaceMapCard extends HTMLElement {
     this._dim = null;
     this._press = null;
     this._suppressClick = false;
+    this._alertOpen = false;
   }
 
   setConfig(config){
@@ -115,6 +204,15 @@ class SpaceMapCard extends HTMLElement {
     return { columns: "full", rows: 8, min_columns: 6, min_rows: 4 };
   }
 
+  connectedCallback(){
+    if (this._timer) clearInterval(this._timer);
+    this._timer = setInterval(() => this._syncChrome(), 20000);
+  }
+
+  disconnectedCallback(){
+    if (this._timer) { clearInterval(this._timer); this._timer = null; }
+  }
+
   /* ------------------------------------------------------------------ 构建 */
   _render(){
     if (!this._hass || this._built) return;
@@ -122,20 +220,45 @@ class SpaceMapCard extends HTMLElement {
 
     const root = this.shadowRoot;
     root.innerHTML = `<style>${CSS}</style>
-      <ha-card><div class="wrap" id="wrap">
-        <div class="back" id="back"><span class="arw">‹</span><span>返回</span></div>
-        <div class="hud" id="hud"></div>
-        <div class="bubble" id="bubble"></div>
-        <svg id="svg" viewBox="0 0 ${DATA.canvas[0]} ${DATA.canvas[1]}"
-             preserveAspectRatio="xMidYMid meet"></svg>
+      <ha-card><div class="shell">
+        <aside class="left" id="left">
+          <div class="clock">
+            <div class="t" id="c-time">--:--</div>
+            <div class="d" id="c-date"></div>
+            <div class="w" id="c-wx"></div>
+          </div>
+          <div class="ai" id="ai"></div>
+          <div class="ai-foot">
+            <span id="ai-meta"></span>
+            <button class="ai-refresh" id="ai-refresh" title="刷新简报">↻</button>
+          </div>
+          <div class="alerts" id="alerts">
+            <div class="alert-cap" id="alert-cap"></div>
+            <div class="alert-list" id="alert-list"></div>
+          </div>
+        </aside>
+
+        <div class="center" id="center">
+          <div class="topbar" id="topbar"><b id="tb-time">--:--</b><span id="tb-wx"></span></div>
+          <div class="back" id="back"><span class="arw">‹</span><span>返回</span></div>
+          <div class="hud" id="hud"></div>
+          <div class="bubble" id="bubble"></div>
+          <svg id="svg" viewBox="0 0 ${DATA.canvas[0]} ${DATA.canvas[1]}"
+               preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <aside class="right" id="right">
+          <div class="scenes" id="scenes"></div>
+          <div class="sec-title" id="sec-title">点中间的房间查看设备</div>
+          <div class="devlist" id="devlist"></div>
+        </aside>
       </div></ha-card>`;
 
     this._svg = root.getElementById("svg");
     this._hud = root.getElementById("hud");
     this._bubble = root.getElementById("bubble");
-    this._wrap = root.getElementById("wrap");
+    this._wrap = root.getElementById("center");
 
-    // 房间层
     for (const r of DATA.rooms){
       const p = document.createElementNS(NS, "polygon");
       p.setAttribute("points", r.points.map(q => q.join(",")).join(" "));
@@ -145,7 +268,6 @@ class SpaceMapCard extends HTMLElement {
       this._rooms.push({name:r.name, el:p, def:r});
     }
 
-    // 墙
     for (const w of DATA.walls){
       const l = document.createElementNS(NS, "line");
       l.setAttribute("x1", w[0]); l.setAttribute("y1", w[1]);
@@ -154,18 +276,77 @@ class SpaceMapCard extends HTMLElement {
       this._svg.appendChild(l);
     }
 
-    // 房间名不再单独画：整屋视图由徽标承担，单房间视图由 HUD 承担，
-    // 否则会和徽标重复、并在单房间视图里压住左上角返回按钮。
     this._buildBadges();
     this._buildPins();
 
     const backEl = root.getElementById("back");
     if (backEl) backEl.addEventListener("click", () => this._backToPlan());
-    const wrapEl = root.getElementById("wrap");
-    if (wrapEl) wrapEl.addEventListener("click", () => this._closeMenu());
+    const centerEl = root.getElementById("center");
+    if (centerEl) centerEl.addEventListener("click", () => this._closeMenu());
 
+    this._buildChrome();
     this._applyView();
     this._sync();
+  }
+
+  _buildChrome(){
+    const root = this.shadowRoot;
+
+    const refresh = root.getElementById("ai-refresh");
+    if (refresh) refresh.addEventListener("click", () => {
+      if (this._hass.states[DATA.aiScript]) {
+        this._hass.callService("script", "turn_on", { entity_id: DATA.aiScript });
+      }
+    });
+
+    const cap = root.getElementById("alert-cap");
+    if (cap) cap.addEventListener("click", () => {
+      this._alertOpen = !this._alertOpen;
+      const list = root.getElementById("alert-list");
+      if (list) list.classList.toggle("on", this._alertOpen);
+    });
+
+    // 场景按钮
+    const box = root.getElementById("scenes");
+    box.innerHTML = "";
+    for (const s of (DATA.scenes || [])){
+      const b = document.createElement("button");
+      b.className = "scene";
+      b.innerHTML = `<span class="ic">${s.icon}</span><span>${s.name}</span>`;
+      b.addEventListener("click", () => this._runScene(s, b));
+      box.appendChild(b);
+    }
+  }
+
+  _runScene(s, btn){
+    const st = this._hass.states[s.entity];
+    if (!st){ return; }
+    const dom = s.entity.split(".")[0];
+    this._hass.callService(dom, "turn_on", { entity_id: s.entity });
+    btn.animate ? btn.animate([{opacity:.5},{opacity:1}], {duration:220}) : null;
+  }
+
+  /* ------------------------------------------------------------------ 图钉 */
+  _pinType(d){
+    if (Array.isArray(d.gangs) && d.gangs.length >= 2) return "multi";
+    // 设备类型本身是只读的（传感器/场景按键/网关），即使挂着"免打扰"这类设置开关，
+    // 也不该画成可点开关 —— 扫地机、猫厕所、喂食器都踩过这条
+    const k = d.kind || "";
+    if (k === "sensor" || k === "binary_sensor" || k === "scene" || k === "gateway") return "sensor";
+    const c = this._controlsOf(d);
+    if (!c.length) return "sensor";
+    const dom = c[0].domain;
+    if (dom === "cover") return "cover";
+    // 扫地机/媒体这类没有"开/关"语义的，按只读处理（菱形，不响应点击）
+    if (dom === "vacuum" || dom === "media_player") return "sensor";
+    if (dom === "light"){
+      const a = this._attrsOf(c[0].entity_id);
+      const modes = a.supported_color_modes || [];
+      const dim = (typeof a.brightness === "number") ||
+                  (modes.length > 0 && !(modes.length === 1 && modes[0] === "onoff"));
+      return dim ? "dimmable" : "onoff";
+    }
+    return "onoff";
   }
 
   _buildBadges(){
@@ -190,9 +371,7 @@ class SpaceMapCard extends HTMLElement {
       stats.setAttribute("class", "b-stats");
       stats.setAttribute("y", "7.5");
 
-      g.appendChild(rect);
-      g.appendChild(name);
-      g.appendChild(stats);
+      g.appendChild(rect); g.appendChild(name); g.appendChild(stats);
       g.addEventListener("click", ev => { ev.stopPropagation(); this.openRoom(r.name); });
       this._svg.appendChild(g);
       this._badges.set(r.name, {el:g, rect, name, stats, def:r, w:88, key:""});
@@ -201,22 +380,26 @@ class SpaceMapCard extends HTMLElement {
 
   _buildPins(){
     for (const d of DATA.devices){
-      const multi = Array.isArray(d.gangs) && d.gangs.length >= 2;
+      const type = this._pinType(d);
+      const multi = type === "multi";
       const r = multi ? BASE_R_MULTI : BASE_R;
       const color = DATA.colors[d.kind] || "#8aa0b4";
 
       const g = document.createElementNS(NS, "g");
-      g.setAttribute("class", "pin");
+      g.setAttribute("class", "pin" + (type === "sensor" || type === "cover" ? "" : ""));
       g.setAttribute("transform", `translate(${d.x},${d.y})`);
+      if (type === "sensor") g.classList.add("no");
 
       const halo = document.createElementNS(NS, "circle");
       halo.setAttribute("r", r + 6); halo.setAttribute("class", "halo");
       halo.setAttribute("fill", color);
       g.appendChild(halo);
 
-      const ring = document.createElementNS(NS, "circle");
-      ring.setAttribute("r", r + 4); ring.setAttribute("class", "ring");
-      g.appendChild(ring);
+      if (type !== "sensor"){
+        const ring = document.createElementNS(NS, "circle");
+        ring.setAttribute("r", r + 4); ring.setAttribute("class", "ring");
+        g.appendChild(ring);
+      }
 
       if (multi){
         const left = document.createElementNS(NS, "path");
@@ -225,12 +408,55 @@ class SpaceMapCard extends HTMLElement {
         const right = document.createElementNS(NS, "path");
         right.setAttribute("d", `M0,${-r} A${r},${r} 0 0 1 0,${r} Z`);
         right.setAttribute("fill", color); right.setAttribute("class", "body");
+        right.setAttribute("opacity", "0.55");
         const div = document.createElementNS(NS, "line");
         div.setAttribute("x1", 0); div.setAttribute("y1", -r);
         div.setAttribute("x2", 0); div.setAttribute("y2", r);
-        div.setAttribute("stroke", "#0a0f15");
-        div.setAttribute("stroke-width", "1.6");
+        div.setAttribute("stroke", "#0a0f15"); div.setAttribute("stroke-width", "1.6");
         g.appendChild(left); g.appendChild(right); g.appendChild(div);
+
+      } else if (type === "sensor"){
+        const half = r * 0.80;
+        const dia = document.createElementNS(NS, "path");
+        dia.setAttribute("d", `M0,${-half} L${half},0 L0,${half} L${-half},0 Z`);
+        dia.setAttribute("fill", color);
+        dia.setAttribute("class", "body");
+        g.appendChild(dia);
+
+      } else if (type === "cover"){
+        // 横向双条：像拉开的窗帘
+        for (const dy of [-r * 0.42, r * 0.42]){
+          const bar = document.createElementNS(NS, "rect");
+          bar.setAttribute("x", -r * 0.92); bar.setAttribute("y", dy - r * 0.28);
+          bar.setAttribute("width", r * 1.84); bar.setAttribute("height", r * 0.56);
+          bar.setAttribute("rx", r * 0.28);
+          bar.setAttribute("fill", color); bar.setAttribute("class", "body");
+          g.appendChild(bar);
+        }
+
+      } else if (type === "dimmable"){
+        // 旋钮感：一圈厚环 + 中心实心 + 顶部刻度
+        const ring = document.createElementNS(NS, "circle");
+        ring.setAttribute("r", r * 0.92);
+        ring.setAttribute("class", "dial");
+        ring.setAttribute("stroke", color);
+        ring.setAttribute("stroke-width", String(r * 0.34));
+        g.appendChild(ring);
+
+        const core = document.createElementNS(NS, "circle");
+        core.setAttribute("r", r * 0.34);
+        core.setAttribute("fill", color);
+        g.appendChild(core);
+
+        const tick = document.createElementNS(NS, "line");
+        tick.setAttribute("x1", 0); tick.setAttribute("y1", -r * 0.98);
+        tick.setAttribute("x2", 0); tick.setAttribute("y2", -r * 0.70);
+        tick.setAttribute("class", "dial");
+        tick.setAttribute("stroke", color);
+        tick.setAttribute("stroke-width", String(r * 0.20));
+        tick.setAttribute("stroke-linecap", "round");
+        g.appendChild(tick);
+
       } else {
         const c = document.createElementNS(NS, "circle");
         c.setAttribute("r", r); c.setAttribute("fill", color);
@@ -244,19 +470,23 @@ class SpaceMapCard extends HTMLElement {
       slash.setAttribute("class", "slash");
       g.appendChild(slash);
 
-      const t = document.createElementNS(NS, "text");
-      t.textContent = d.rank;
-      g.appendChild(t);
+      if (type !== "sensor" && type !== "cover"){
+        const t = document.createElementNS(NS, "text");
+        t.textContent = d.rank;
+        g.appendChild(t);
+      }
 
-      g.addEventListener("click", ev => {
-        ev.stopPropagation();
-        if (this._suppressClick){ this._suppressClick = false; return; }
-        this._onPin(d);
-      });
-      g.addEventListener("pointerdown", ev => this._startPress(d, ev));
+      if (type !== "sensor"){
+        g.addEventListener("click", ev => {
+          ev.stopPropagation();
+          if (this._suppressClick){ this._suppressClick = false; return; }
+          this._onPin(d);
+        });
+        g.addEventListener("pointerdown", ev => this._startPress(d, ev));
+      }
 
       this._svg.appendChild(g);
-      this._pins.set(d.id, {el:g, def:d, color});
+      this._pins.set(d.id, {el:g, def:d, color, type});
     }
   }
 
@@ -266,13 +496,15 @@ class SpaceMapCard extends HTMLElement {
     if (!r) return;
     this._view = {type:"room", name};
     this._closeMenu();
+    this._alertOpen = false;
+    const list = this.shadowRoot.getElementById("alert-list");
+    if (list) list.classList.remove("on");
     this._applyView();
 
     const [x0, y0, x1, y1] = r.bbox;
     const w = (x1 - x0) * 1.16;
     const h = (y1 - y0) * 1.16;
 
-    // 只对这一间的图钉做淡入
     const shown = [];
     for (const [, p] of this._pins){
       if (p.el.style.display !== "none"){ p.el.style.opacity = "0"; shown.push(p.el); }
@@ -292,11 +524,10 @@ class SpaceMapCard extends HTMLElement {
 
   _applyView(){
     const inRoom = this._view.type === "room";
-    this.shadowRoot.getElementById("back").style.display = inRoom ? "flex" : "none";
+    const back = this.shadowRoot.getElementById("back");
+    if (back) back.style.display = inRoom ? "flex" : "none";
 
-    for (const [, b] of this._badges){
-      b.el.style.display = inRoom ? "none" : "";
-    }
+    for (const [, b] of this._badges) b.el.style.display = inRoom ? "none" : "";
     for (const [, p] of this._pins){
       const show = inRoom ? p.def.area === this._view.name : false;
       p.el.style.display = show ? "" : "none";
@@ -306,6 +537,7 @@ class SpaceMapCard extends HTMLElement {
       r.el.style.opacity = (!inRoom || r.name === this._view.name) ? "1" : "0.32";
     }
     this._hudText();
+    this._syncRight();
   }
 
   _hudText(){
@@ -352,7 +584,6 @@ class SpaceMapCard extends HTMLElement {
       this._fitPins();
     };
 
-    // 兜底：某些环境（无头/虚拟时钟）rAF 时间戳不前进，动画会卡在第 0 帧
     this._endTimer = setTimeout(finish, D + 80);
 
     let frames = 0;
@@ -360,7 +591,6 @@ class SpaceMapCard extends HTMLElement {
       if (token !== this._animToken) return;
       frames++;
       const elapsed = performance.now() - t0;
-      // 时间戳冻结（elapsed 恒为 0）时退回按帧数推进，保证一定能收敛
       const p = Math.min(1, elapsed > 0 ? elapsed / D : frames / total);
       apply(p);
       this._fitPins();
@@ -377,8 +607,8 @@ class SpaceMapCard extends HTMLElement {
     const svg = this._svg;
     if (!svg) return;
     const vb = svg.viewBox.baseVal;
-    const cw = svg.clientWidth || 520;
-    const ch = svg.clientHeight || 800;
+    const cw = svg.clientWidth || 620;
+    const ch = svg.clientHeight || 720;
     const upp = Math.max(vb.width / cw, vb.height / ch);   // user units per screen px
     const k = Math.max(0.2, Math.min(4, (TARGET_PIN_R * upp) / BASE_R));
     const kk = k.toFixed(4);
@@ -386,24 +616,23 @@ class SpaceMapCard extends HTMLElement {
       if (p.el.style.display === "none") continue;
       p.el.setAttribute("transform", `translate(${p.def.x},${p.def.y}) scale(${kk})`);
     }
-    // 徽标：按屏幕像素放大（宽屏可读），但不得超过所属房间宽度
     const kb = (TARGET_BADGE_H * upp) / BADGE_H;
     for (const [, b] of this._badges){
       if (b.el.style.display === "none") continue;
       const cwB = b.w || 88;
       const [x0, , x1] = b.def.bbox;
       const roomW = x1 - x0;
-      let k = kb;
-      if (roomW > 0) k = Math.min(k, (roomW * 0.96) / cwB);
-      k = Math.max(0.35, Math.min(3, k));
+      let k2 = kb;
+      if (roomW > 0) k2 = Math.min(k2, (roomW * 0.96) / cwB);
+      k2 = Math.max(0.35, Math.min(3, k2));
 
-      const half = (cwB * k) / 2;
+      const half = (cwB * k2) / 2;
       let lx = b.def.label[0];
-      if (roomW > cwB * k + 6){
+      if (roomW > cwB * k2 + 6){
         lx = Math.max(x0 + half + 3, Math.min(x1 - half - 3, lx));
       }
       b.el.setAttribute("transform",
-        `translate(${lx},${b.def.label[1]}) scale(${k.toFixed(3)})`);
+        `translate(${lx},${b.def.label[1]}) scale(${k2.toFixed(3)})`);
     }
   }
 
@@ -440,6 +669,8 @@ class SpaceMapCard extends HTMLElement {
       p.el.classList.add(this._devState(p.def));
     }
     this._syncBadges();
+    this._syncChrome();
+    this._syncRight();
     this._fitPins();
   }
 
@@ -462,21 +693,184 @@ class SpaceMapCard extends HTMLElement {
       }
 
       const key = name + "|" + stats;
-      if (b.key === key) continue;   // 文本没变就不重新测量，避免每帧抖动
+      if (b.key === key) continue;
       b.key = key;
       b.name.textContent = name;
       b.stats.textContent = stats;
 
       let w1 = 60, w2 = 60;
-      try {
-        w1 = b.name.getBBox().width;
-        w2 = b.stats.getBBox().width;
-      } catch (e) { /* 未渲染时忽略 */ }
+      try { w1 = b.name.getBBox().width; w2 = b.stats.getBBox().width; } catch (e) {}
       const cw = Math.max(64, Math.max(w1, w2) + 20);
       b.w = cw;
       b.rect.setAttribute("x", String(-cw / 2));
       b.rect.setAttribute("width", String(cw));
     }
+  }
+
+  /* ------------------------------------------------------------------ 左右栏刷新 */
+  _syncChrome(){
+    if (!this._built) return;
+    const root = this.shadowRoot;
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const tstr = `${hh}:${mm}`;
+    const weeks = "日一二三四五六";
+    const dstr = `${now.getMonth() + 1}月${now.getDate()}日 周${weeks[now.getDay()]}`;
+
+    const elT = root.getElementById("c-time");
+    if (elT) elT.textContent = tstr;
+    const elD = root.getElementById("c-date");
+    if (elD) elD.textContent = dstr;
+    const tbT = root.getElementById("tb-time");
+    if (tbT) tbT.textContent = tstr;
+
+    // 天气
+    let wxText = "";
+    const wxId = Object.keys(this._hass.states).find(k => k.startsWith("weather."));
+    if (wxId){
+      const s = this._hass.states[wxId];
+      const label = WX[s.state] || s.state;
+      const t = s.attributes && s.attributes.temperature;
+      wxText = (typeof t === "number") ? `${label} ${Math.round(t)}°C` : label;
+    }
+    const elW = root.getElementById("c-wx");
+    if (elW) elW.textContent = wxText;
+    const tbW = root.getElementById("tb-wx");
+    if (tbW) tbW.textContent = wxText;
+
+    // AI 简报
+    const ai = root.getElementById("ai");
+    if (ai){
+      const rows = [];
+      for (const line of (DATA.ai || [])){
+        const s = this._hass.states[line.entity];
+        if (!s) continue;
+        const txt = (s.state || "").trim();
+        if (!txt || txt === "unknown" || txt === "unavailable") continue;
+        rows.push(`<div class="ai-row"><span class="ic">${line.icon}</span><span>${this._esc(txt)}</span></div>`);
+      }
+      ai.innerHTML = rows.join("");
+    }
+    const meta = root.getElementById("ai-meta");
+    if (meta){
+      const s = this._hass.states[DATA.aiMeta];
+      meta.textContent = (s && s.state && s.state !== "unknown") ? s.state : "";
+    }
+    const rf = root.getElementById("ai-refresh");
+    if (rf) rf.style.display = this._hass.states[DATA.aiScript] ? "flex" : "none";
+
+    // 告警
+    const probs = this._problems();
+    const cap = root.getElementById("alert-cap");
+    if (cap){
+      cap.classList.toggle("on", probs.length > 0);
+      cap.textContent = probs.length ? `⚠ ${probs.length} 项异常` : "";
+    }
+    const list = root.getElementById("alert-list");
+    if (list){
+      list.innerHTML = probs.length
+        ? `<h4>需要留意</h4>` + probs.map(p =>
+            `<div class="it"><span>${this._esc(p.name)}</span><span>${this._esc(p.why)}</span></div>`).join("")
+        : "";
+    }
+  }
+
+  _problems(){
+    const out = [];
+    for (const d of DATA.devices){
+      const c = this._controlsOf(d);
+      const ids = c.map(x => x.entity_id);
+      if (d.state_entity) ids.push(d.state_entity);
+      if (d.battery) ids.push(d.battery);
+
+      let un = false;
+      for (const id of ids){
+        const s = this._stateOf(id);
+        if (s === "unavailable" || s === "unknown"){ un = true; break; }
+      }
+      if (un){ out.push({name: d.name, why: "不可用"}); continue; }
+
+      if (d.battery){
+        const v = parseFloat(this._stateOf(d.battery));
+        if (!isNaN(v) && v < 20) out.push({name: d.name, why: `电量 ${Math.round(v)}%`});
+      }
+    }
+    return out;
+  }
+
+  _syncRight(){
+    if (!this._built) return;
+    const root = this.shadowRoot;
+
+    // 场景可用性
+    const box = root.getElementById("scenes");
+    if (box){
+      const btns = box.querySelectorAll(".scene");
+      (DATA.scenes || []).forEach((s, i) => {
+        const b = btns[i];
+        if (!b) return;
+        b.classList.toggle("dis", !this._hass.states[s.entity]);
+      });
+    }
+
+    const title = root.getElementById("sec-title");
+    const listEl = root.getElementById("devlist");
+    if (!listEl) return;
+
+    if (this._view.type !== "room"){
+      if (title) title.textContent = "点中间的房间查看设备";
+      listEl.innerHTML = `<div class="empty">进入任一房间后，这里列出该房间的窗帘、插座、传感器等非灯设备。</div>`;
+      return;
+    }
+
+    const room = this._view.name;
+    if (title) title.textContent = `${room} · 其他设备`;
+
+    const rows = DATA.devices.filter(d => {
+      if (d.area !== room) return false;
+      if (Array.isArray(d.gangs) && d.gangs.length >= 2) return false;
+      const cs = this._controlsOf(d);
+      if (cs.some(c => c.domain === "light")) return false;
+      return true;
+    });
+
+    if (!rows.length){
+      listEl.innerHTML = `<div class="empty">这个房间没有其他设备。</div>`;
+      return;
+    }
+
+    const html = rows.map((d, i) => {
+      const cs = this._controlsOf(d);
+      let stateTxt = "", btn = "";
+      if (cs.length){
+        const c = cs[0];
+        const st = this._stateOf(c.entity_id);
+        stateTxt = st === "open" ? "打开" : st === "closed" ? "关闭" : st === "on" ? "开" : st === "off" ? "关" : st;
+        const isOn = (st === "on" || st === "open");
+        btn = `<button data-i="${i}">${isOn ? "关" : "开"}</button>`;
+      } else {
+        const st = d.state_entity ? this._stateOf(d.state_entity) : "—";
+        stateTxt = st === "unavailable" ? "不可用" : st;
+      }
+      return `<div class="dev"><span class="nm">${this._esc(d.name)}</span>` +
+             `<span class="st">${this._esc(String(stateTxt))}</span>${btn}</div>`;
+    }).join("");
+
+    listEl.innerHTML = html;
+    listEl.querySelectorAll("button[data-i]").forEach(b => {
+      b.addEventListener("click", ev => {
+        ev.stopPropagation();
+        const d = rows[+b.dataset.i];
+        const c = this._controlsOf(d)[0];
+        if (c) this._call(c, "toggle");
+      });
+    });
+  }
+
+  _esc(s){
+    return String(s).replace(/[&<>"']/g, c =>
+      ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   }
 
   /* ------------------------------------------------------------------ 交互 */
@@ -530,6 +924,11 @@ class SpaceMapCard extends HTMLElement {
   _startPress(d, ev){
     const c = this._controlsOf(d);
     if (c.length !== 1 || c[0].domain !== "light") return;
+    const a = this._attrsOf(c[0].entity_id);
+    const modes = a.supported_color_modes || [];
+    const dimmable = (typeof a.brightness === "number") ||
+                     (modes.length > 0 && !(modes.length === 1 && modes[0] === "onoff"));
+    if (!dimmable) return;
 
     clearTimeout(this._pressTimer);
     const startX = ev.clientX, startY = ev.clientY;
@@ -545,7 +944,7 @@ class SpaceMapCard extends HTMLElement {
         clearTimeout(this._pressTimer);
         this._press = null;
         window.removeEventListener("pointermove", cancel);
-        window.removeEventListener("pointerup", cancel);
+        window.removeEventListener("pointerup", up);
       }
     };
     const up = () => {
@@ -568,7 +967,8 @@ class SpaceMapCard extends HTMLElement {
     this._suppressClick = true;
     this._dim = {d, ctrl, x, y, b0, k0, minK, maxK, b: b0, k: k0, moved: false};
 
-    this._pins.get(d.id).el.classList.add("dimmed");
+    const pin = this._pins.get(d.id);
+    if (pin) pin.el.classList.add("dimmed");
     this._showBubble(x, y, `亮度 ${Math.round(b0 / 255 * 100)}% · ${Math.round(k0)}K`);
 
     window.addEventListener("pointermove", this._onDimMove);
