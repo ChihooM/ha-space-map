@@ -676,21 +676,31 @@ class SpaceMapCard extends HTMLElement {
 
   _syncBadges(){
     for (const [name, b] of this._badges){
-      let on = 0;
+      let on = 0, total = 0, devCount = 0;
       for (const d of DATA.devices){
         if (d.area !== name) continue;
+        devCount++;
         for (const c of this._controlsOf(d)){
-          if (c.domain === "light" && this._stateOf(c.entity_id) === "on") on++;
+          if (c.domain !== "light") continue;
+          total++;
+          if (this._stateOf(c.entity_id) === "on") on++;
         }
       }
-      let stats = `${on} 盏亮`;
+
+      // 没有灯的房间不要谎报"0 盏亮"——玄关只有传感器
+      const parts = [];
+      if (total === 1) parts.push(on ? "亮" : "灭");
+      else if (total > 1) parts.push(`${on}/${total} 盏亮`);
+      else parts.push(`${devCount} 个设备`);
+
       if (b.def.temp){
         const s = this._stateOf(b.def.temp);
         if (s && s !== "unavailable" && s !== "unknown"){
           const v = parseFloat(s);
-          if (!isNaN(v)) stats += ` · ${v.toFixed(1)}°C`;
+          if (!isNaN(v)) parts.push(`${v.toFixed(1)}°C`);
         }
       }
+      const stats = parts.join(" · ");
 
       const key = name + "|" + stats;
       if (b.key === key) continue;
