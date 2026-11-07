@@ -687,10 +687,13 @@ class SpaceMapCard extends HTMLElement {
         }
       }
 
-      // 没有灯的房间不要谎报"0 盏亮"——玄关只有传感器
+      // 灯的表述要区分三种情况：
+      //  0 盏灯（玄关只有传感器）→ 不写灯，只写设备数
+      //  1 盏灯 → 只写亮/灭，避免"1/1 盏亮"这种废话
+      //  ≥2 盏灯 → 同时给出"亮几盏"和"共几盏"，因为只写"1 盏亮"会让人以为房间只有一盏
       const parts = [];
       if (total === 1) parts.push(on ? "亮" : "灭");
-      else if (total > 1) parts.push(`${on}/${total} 盏亮`);
+      else if (total > 1) parts.push(`${on} 盏亮 共 ${total} 盏`);
       else parts.push(`${devCount} 个设备`);
 
       if (b.def.temp){
