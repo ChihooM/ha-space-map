@@ -10,7 +10,7 @@ const BASE_R = 11;
 const BASE_R_MULTI = 15;
 const TARGET_PIN_R = 9;
 const BADGE_H = 36;
-const TARGET_BADGE_H = 48;
+const TARGET_BADGE_H = 58;
 
 const WX = {
   "sunny":"晴","clear-night":"晴","partlycloudy":"局部多云","cloudy":"多云",
@@ -442,7 +442,7 @@ class SpaceMapCard extends HTMLElement {
       const pwr = document.createElementNS(NS, "g");
       pwr.setAttribute("class", "pwr");
       const pwrC = document.createElementNS(NS, "circle");
-      pwrC.setAttribute("r", String((BADGE_H * 0.55) / 2));
+      pwrC.setAttribute("r", String((BADGE_H * 0.52) / 2));
       pwrC.setAttribute("cy", "0");
       const pwrT = document.createElementNS(NS, "text");
       pwrT.textContent = "⏻";
@@ -857,10 +857,12 @@ class SpaceMapCard extends HTMLElement {
 
       let w1 = 60, w2 = 60;
       try { w1 = b.name.getBBox().width; w2 = b.stats.getBBox().width; } catch (e) {}
-      // 电源键放在徽标内部右端：放外面会和隔壁房间的徽标相撞（小阳台的键被浴室压住过）
-      const pad = sole ? (BADGE_H * 0.55 + 12) : 0;
-      const cw = Math.max(64, Math.max(w1, w2) + 20 + pad);
+      // 电源键放徽标内部右端。宽度必须由按钮直径反推，否则文字一长按钮就顶出边框。
+      const btnD = BADGE_H * 0.52;
+      const pad = sole ? (btnD + 14) : 0;
+      const cw = Math.max(66, Math.max(w1, w2) + 22 + pad);
       b.w = cw;
+      b.btnD = btnD;
       b.rect.setAttribute("x", String(-cw / 2));
       b.rect.setAttribute("width", String(cw));
       b.name.setAttribute("x", String(-pad / 2));
@@ -872,8 +874,10 @@ class SpaceMapCard extends HTMLElement {
   _placePwr(b){
     if (!b.pwr) return;
     const w = b.w || 88;
-    const r = (BADGE_H * 0.55) / 2;
-    b.pwr.setAttribute("transform", `translate(${(w / 2 - r - 6).toFixed(2)},0)`);
+    const d = b.btnD || (BADGE_H * 0.52);
+    // 右边缘留 7 个单位，保证圆形完整落在圆角矩形内部
+    b.pwr.setAttribute("transform",
+      `translate(${(w / 2 - d / 2 - 7).toFixed(2)},0)`);
   }
 
   /* ------------------------------------------------------------------ 左右栏刷新 */
