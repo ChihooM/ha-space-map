@@ -2335,10 +2335,27 @@ class SpaceMapCard extends HTMLElement {
           } else if (a === "feed"){
             const spec = p.actions.feed;
             if (!spec) return;
+            const feedEntity = spec.entity;
+            const curVal = (this._hass.states[feedEntity] || {}).state;
             this._confirmRisky(
-              { entity_id: spec.entity, domain: spec.domain, label: "手动出粮 · 最小一档" },
+              { entity_id: feedEntity, domain: spec.domain, label: "手动出粮 · 最小一档" },
               "出粮一档，份量以设备为准（HA 读不到具体克数）。确认现在出粮？",
-              spec.service, { value: spec.value }, "确认出粮？", "确认出粮");
+              spec.service, { value: spec.value }, "确认出粮？", "确认出粮",
+              () => {
+                // 为什么先归零再发目标值：
+                // text.set_value 只在**值发生变化**时才触发设备动作。若上一次出粮后
+                // 实体停在 "10"（不自动归零），第二次再发 "10" 值没变 → 设备不动，
+                // 界面上也完全看不出异常（静默失效）。
+                // 所以先写 "0" 确保下次有变化；当前已是 "0" 则省掉这一步。
+                const send = v => this._hass.callService(
+                  spec.domain, spec.service, { entity_id: feedEntity, value: v });
+                if (String(curVal) === "0"){
+                  setTimeout(() => send(spec.value), 400);
+                } else {
+                  send("0");
+                  setTimeout(() => send(spec.value), 400);
+                }
+              });
           }
         });
       });
@@ -2757,7 +2774,7 @@ class SpaceMapCard extends HTMLElement {
   }
 
   /* ---- 危险操作二次确认 ---- */
-  _confirmRisky(ctrl, msg, service, extra, title, confirmText){
+  _confirmRisky(ctrl, msg, service, extra, title, confirmText, onConfirm){
     this._closeRisky();
     const ov = document.createElement("div");
     ov.className = "risk-ov";
@@ -2779,6 +2796,7 @@ class SpaceMapCard extends HTMLElement {
     ov.querySelector(".risk-yes").onclick = ev => {
       ev.stopPropagation();
       close();
+      if (typeof onConfirm === "function"){ onConfirm(); return; }
       const data = Object.assign({ entity_id: ctrl.entity_id }, extra || {});
       this._hass.callService(ctrl.domain, service, data);
     };
