@@ -632,10 +632,17 @@ class SpaceMapCard extends HTMLElement {
     this._alertOpen = false;
     this._dimRows = new Map();
     this._dimKey = "";
-    // 视角：2d（细墙线正交俯视）/ 2.5d（等距挤出 + 光影）。默认 2D，localStorage 记忆
-    let saved = "2d";
-    try { saved = localStorage.getItem("space-map-mode") || "2d"; } catch (e) {}
-    this._mode = saved === "2.5d" ? "2.5d" : "2d";
+    // 视角：3d（真模型）/ 2.5d（等距挤出 + 光影）/ 2d（细墙线正交俯视）。
+    // 默认进 3D（有 model3d 时）；用户切过就按 localStorage 记忆；非法值退 2.5D。
+    // 首次加载只读不写：不能因为「默认」就把 3D 写进记忆，否则用户从没选过也会被记住。
+    let saved = null;
+    try { saved = localStorage.getItem("space-map-mode"); } catch (e) {}
+    const has3d = !!(DATA && DATA.model3d), hasIso = !!(DATA && DATA.iso);
+    if (saved === "2d") this._mode = "2d";
+    else if (saved === "2.5d") this._mode = hasIso ? "2.5d" : "2d";
+    else if (saved === "3d") this._mode = has3d ? "3d" : (hasIso ? "2.5d" : "2d");
+    else if (!saved) this._mode = has3d ? "3d" : (hasIso ? "2.5d" : "2d");  // 没记忆过 → 默认 3D
+    else this._mode = hasIso ? "2.5d" : "2d";                                // 非法值 → 2.5D
     this._planMode = this._mode;
 
     // 主题：dark / light。默认深色，localStorage 记忆。切换后整卡重建。
@@ -1754,7 +1761,12 @@ class SpaceMapCard extends HTMLElement {
     }).catch(e => {
       this._v3Loading = false;
       const b = this.shadowRoot && this.shadowRoot.getElementById("three3d");
-      if (b) b.innerHTML = '<div style="padding:24px;color:#889;font:500 14px/1.6 sans-serif">3D 视图加载失败：' + (e && e.message ? e.message : e) + '</div>';
+      if (b) b.innerHTML = "";
+      // 3D 资源不可用（网络/404/host 没配）→ 回落到 2.5D 并同步按钮态，
+      // 否则「模型」还高亮、中间却一片空，比不切更糟。回落不写 localStorage。
+      this._setMode(DATA.iso ? "2.5d" : "2d", { persist: false });
+      this._flashNote("3D 资源未加载，已切到立体视图");
+      if (window.console && console.warn) console.warn("space-map: 3D 加载失败，已回落", e && e.message ? e.message : e);
     });
   }
 
@@ -1773,6 +1785,34 @@ class SpaceMapCard extends HTMLElement {
       lights,
       ac: { room: "卧室", on: !!(ac && ac.state && ac.state !== "off") },
     });
+  }
+
+  /* 一行会自己消失的提示（3D 回落时用；不新增长期 UI，不动布局） */
+  _flashNote(text){
+    const r = this.shadowRoot;
+    const center = r && r.getElementById("center");
+    if (!center) return;
+    let n = r.getElementById("note3d");
+    if (!n){
+      n = document.createElement("div");
+      n.id = "note3d";
+      n.style.cssText = "position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:10;" +
+        "max-width:78%;padding:7px 14px;border-radius:9px;pointer-events:none;" +
+        "font:500 13px/1.45 system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;" +
+        "box-shadow:0 8px 22px rgba(0,0,0,.35);opacity:0;transition:opacity .25s";
+      center.appendChild(n);
+    }
+    n.textContent = text;
+    n.style.background = T.surfaceHover2;
+    n.style.color = T.textBtn;
+    n.style.border = "1px solid " + T.accentLine;
+    n.style.opacity = "1";
+    clearTimeout(this._noteT);
+    this._noteT = setTimeout(() => {
+      if (!n) return;
+      n.style.opacity = "0";
+      setTimeout(() => { try { n.remove(); } catch (e) {} }, 400);
+    }, 6000);
   }
 
   _showDeviceBubble(dev){
@@ -1801,11 +1841,14 @@ class SpaceMapCard extends HTMLElement {
     return out;
   }
 
-  _setMode(m){
+  _setMode(m, opts){
     if (m === "3d" && DATA.model3d) this._mode = "3d";
     else this._mode = (m === "2.5d" && DATA.iso) ? "2.5d" : "2d";
     this._planMode = this._mode;
-    try { localStorage.setItem("space-map-mode", this._mode); } catch (e) {}
+    // persist:false 用于「3D 加载失败自动回落」——回落不是用户选择，不能写进记忆
+    if (!opts || opts.persist !== false) {
+      try { localStorage.setItem("space-map-mode", this._mode); } catch (e) {}
+    }
     this._applyMode();
     this._syncLamps();
     this._syncBadges();
